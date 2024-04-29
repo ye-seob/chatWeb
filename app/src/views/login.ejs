@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="form-container">
+      <a href="/">
+        <img
+          src="/로고.png"
+          alt="로고"
+          height="50px"
+          style="margin-top: 30px"
+        />
+      </a>
+      <h2>로그인</h2>
+      <form action="/login" method="post">
+        <div class="form-group">
+          <input
+            type="text"
+            id="id"
+            name="id"
+            placeholder="학번을 입력하세요"
+            required
+            autocomplete="off"
+          />
+        </div>
+        <div class="form-group">
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="비밀번호를 입력하세요"
+            required
+          />
+        </div>
+        <button type="submit" class="submit-btn">로그인</button>
+      </form>
+      <p>아이디가 없으신가요? <a href="/signup">회원가입</a></p>
+    </div>
+  </body>
+</html>
