@@ -3,10 +3,7 @@ const app = express();
 const path = require("path");
 const bcrypt = require("bcrypt");
 const collection = require("./config");
-const WebSocket = require("ws");
-const { name } = require("ejs");
-
-const PORT = 3000;
+const home = require("./routes/index");
 
 //데이터를 Jason 형식으로 변환
 app.use(express.json());
@@ -14,14 +11,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "public")));
-
-app.get("/", (req, res) => {
-  res.render("login");
-});
-
-app.get("/signup", (req, res) => {
-  res.render("signup");
-});
+app.use("/", home);
 
 //유저 등록
 app.post("/signup", async (req, res) => {
@@ -72,6 +62,4 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(` ${PORT}포트 서버 실행중`);
-});
+module.exports = app;
