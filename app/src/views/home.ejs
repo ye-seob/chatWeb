@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="home.css" />
+    <title>Chat App</title>
+  </head>
+  <body>
+    <div class="sidebar">
+      <div class="top-icons">
+        <div class="profile">
+          <img src="/사람.png" alt="Friend Icon" />
+        </div>
+        <div class="chat">
+          <img src="/채팅.png" alt="Chat Icon" />
+        </div>
+      </div>
+      <div class="settings">
+        <img src="/설정.png" alt="Settings Icon" />
+        <button>로그아웃</button>
+      </div>
+    </div>
+    <div class="container">
+      <div class="myInfo">
+        <h4>최예윤</h4>
+      </div>
+
+      <div class="friend-list">
+        <div class="friend-count">
+          친구 10명<button class="add-friend-btn">+</button>
+        </div>
+
+        <div class="friends">
+          <div class="friend"></div>
+          <div class="friend"></div>
+          <div class="friend"></div>
+        </div>
+      </div>
+    </div>
+    <div class="chat-container">
+      <div class="chat-room">
+        <div class="chat-view" id="chat-view"></div>
+        <div class="chat-send-box">
+          <input class="send" type="text" id="message-input" />
+          <button class="send-btn" onclick="sendMessage()">전송</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function sendMessage() {
+        var messageInput = document.getElementById("message-input");
+        var message = messageInput.value.trim();
+
+        if (message !== "") {
+          var chatView = document.getElementById("chat-view");
+          var messageElement = document.createElement("div");
+          messageElement.textContent = message;
+          chatView.appendChild(messageElement);
+          chatView.scrollTop = chatView.scrollHeight;
+          messageInput.value = "";
+        }
+      }
+
+      document
+        .getElementById("message-input")
+        .addEventListener("keypress", function (event) {
+          if (event.key === "Enter") {
+            sendMessage();
+          }
+        });
+    </script>
+  </body>
+</html>

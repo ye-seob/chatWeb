@@ -1,0 +1,167 @@
+body {
+  padding: 0;
+  background-color: #f8f9fa;
+  color: #495057;
+  display: flex;
+  margin: 0;
+}
+
+.sidebar {
+  width: 80px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-right: 1px solid #888888;
+}
+
+.top-icons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.profile img,
+.chat img {
+  width: 35px;
+  height: 35px;
+  margin-bottom: 40px;
+}
+
+.settings {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: auto;
+  margin-bottom: 20px;
+}
+
+.settings img {
+  width: 35px;
+  height: 35px;
+  margin-bottom: 20px;
+}
+
+.settings button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 5px 10px;
+}
+
+.settings button:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.container {
+  height: 100vh;
+  width: 400px;
+  border-right: 1px solid #888888;
+}
+
+.myInfo {
+  padding: 20px;
+  text-align: right;
+  margin-right: 10px;
+}
+
+.myInfo h4 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.friend-list {
+}
+
+.friend-count {
+  width: 100%;
+  font-size: 16px;
+  border: 1px solid #888888;
+  border-right: none;
+  border-left: none;
+  text-align: left;
+}
+
+.friend-count {
+  position: relative; /* 상대 위치 설정 */
+}
+
+.add-friend-btn {
+  position: absolute; /* 절대 위치 설정 */
+  top: 0; /* 위에서 0px 떨어진 위치 */
+  right: 0; /* 오른쪽에서 0px 떨어진 위치 */
+  font-size: 16px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-left: 5px; /* 버튼과 텍스트 사이의 간격 조정 */
+}
+
+.add-friend-btn:hover {
+  text-decoration: underline; /* 마우스 호버시 밑줄 표시 */
+}
+.friend {
+  width: 50px;
+  height: 50px;
+  background-color: #ccc;
+  border-radius: 50%;
+  margin: 5px;
+}
+
+.chat-container {
+  width: 1130px;
+  position: relative;
+}
+
+.chat-room {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid #495057;
+  border-radius: 15px;
+}
+
+.chat-view {
+  height: 500px;
+  width: 500px;
+  border-radius: 15px;
+  overflow-y: auto;
+}
+
+.chat-send-box {
+  height: 60px;
+  width: 500px;
+  border-top: 1px solid #495057;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.send {
+  height: 30px;
+  width: 350px;
+  border: 1px solid #495057;
+  border-radius: 15px;
+  font-size: 16px;
+  margin-right: 20px;
+  margin-left: 40px;
+}
+
+.send-btn {
+  height: 30px;
+  width: 80px;
+  border: 1px solid #495057;
+  border-radius: 15px;
+  font-size: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px;
+}
