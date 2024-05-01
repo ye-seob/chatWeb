@@ -1,14 +1,6 @@
 const mongoose = require("mongoose");
 const connect = mongoose.connect("mongodb://localhost:27017/chat");
 
-connect
-  .then(() => {
-    console.log("DB 연결 성공");
-  })
-  .catch(() => {
-    console.log("DB 연결 실패");
-  });
-
 //스키마
 const loginSchema = new mongoose.Schema({
   name: {
