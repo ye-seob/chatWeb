@@ -36,8 +36,8 @@ input {
 }
 
 button {
-  height: 55px;
   width: 65px;
+  height: 55px;
   border-radius: 15px;
   border: none;
   background-color: #e9ecef; /* 짙은 회색 */
