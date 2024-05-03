@@ -1,19 +1,23 @@
+// /src/models/userModels.js
 const mongoose = require("mongoose");
 const connect = mongoose.connect("mongodb://localhost:27017/chat");
 
-//스키마
 const loginSchema = new mongoose.Schema({
   name: {
     type: String,
-    require: true,
+    required: true,
   },
   id: {
     type: String,
-    require: true,
+    required: true,
   },
   password: {
     type: String,
-    require: true,
+    required: true,
+  },
+  friends: {
+    type: Number,
+    default: 0, // 기본값을 0으로 설정
   },
 });
 

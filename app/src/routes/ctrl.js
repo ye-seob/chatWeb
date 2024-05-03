@@ -1,3 +1,5 @@
+// src/routes/ctrl.js
+
 const login = (req, res) => {
   res.render("login");
 };

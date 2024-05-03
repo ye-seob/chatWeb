@@ -3,32 +3,34 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="home.css" />
+    <link rel="stylesheet" href="/css/home.css" />
     <title>Chat App</title>
   </head>
   <body>
     <div class="sidebar">
       <div class="top-icons">
-        <div class="profile">
-          <img src="/person.png" alt="Friend Icon" />
-        </div>
-        <div class="chat">
-          <img src="/chat.png" alt="Chat Icon" />
-        </div>
+        <img class="logo-img" src="/css/logo.png" alt="Logo Icon" />
+        <img class="profile-img" src="/css/person.png" alt="Friend Icon" />
+        <img class="chat-img" src="/css/chat.png" alt="Chat Icon" />
       </div>
       <div class="settings">
-        <img src="/option.png" alt="Settings Icon" />
+        <img class="setting-img" src="/css/option.png" alt="Settings Icon" />
         <button id="logout-btn">로그아웃</button>
       </div>
     </div>
     <div class="container">
       <div class="myInfo">
-        <h4></h4>
+        <% if (username) { %>
+        <p><%= username %>님</p>
+        <% } else { %>
+        <p>Welcome, Guest!</p>
+        <% } %>
       </div>
 
       <div class="friend-list">
         <div class="friend-count">
-          친구 10명<button class="add-friend-btn">+</button>
+          <span id="friend-count">친구 <%= friendCount %></span>
+          <button class="add-friend-btn">+</button>
         </div>
 
         <div class="friends">
@@ -48,44 +50,6 @@
       </div>
     </div>
 
-    <script>
-      function sendMessage() {
-        var messageInput = document.getElementById("message-input");
-        var message = messageInput.value.trim();
-
-        if (message !== "") {
-          var chatView = document.getElementById("chat-view");
-          var messageElement = document.createElement("div");
-          messageElement.textContent = message;
-          chatView.appendChild(messageElement);
-          chatView.scrollTop = chatView.scrollHeight;
-          messageInput.value = "";
-        }
-      }
-
-      document
-        .getElementById("message-input")
-        .addEventListener("keypress", function (event) {
-          if (event.key === "Enter") {
-            sendMessage();
-          }
-        });
-
-      document
-        .getElementById("logout-btn")
-        .addEventListener("click", function () {
-          fetch("/logout", {
-            method: "POST",
-          })
-            .then((response) => response.text())
-            .then((data) => {
-              console.log(data); // '로그아웃 되었습니다.' 메시지 로깅
-              window.location.href = "/";
-            })
-            .catch((error) => {
-              console.error("Error:", error);
-            });
-        });
-    </script>
+    <script src="/js/home.js"></script>
   </body>
 </html>
