@@ -7,7 +7,7 @@ const loginSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  id: {
+  student_id: {
     type: String,
     required: true,
   },
@@ -17,7 +17,7 @@ const loginSchema = new mongoose.Schema({
   },
   friends: {
     type: Number,
-    default: 0, // 기본값을 0으로 설정
+    default: 0,
   },
 });
 
