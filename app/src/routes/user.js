@@ -3,8 +3,12 @@
 const express = require("express");
 const router = express.Router();
 const userController = require("../controllers/userController");
+const friendController = require("../controllers/friendController");
 
 router.post("/signup", userController.signup);
 router.post("/login", userController.login);
+router.post("/logout", userController.logout);
+
+router.post("/addFriend", friendController.addFriend);
 
 module.exports = router;

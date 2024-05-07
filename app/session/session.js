@@ -1,12 +1,22 @@
-// session/session.js
+// /src/session/session.js
 
 const session = require("express-session");
+const MongoStore = require("connect-mongo");
 
-const sessionConfig = session({
-  secret: "yourSecretKey",
-  resave: false,
-  saveUninitialized: true,
-  cookie: { secure: true },
-});
+function createSessionStore(mongoUrl) {
+  const store = MongoStore.create({
+    mongoUrl: mongoUrl,
+    collectionName: "sessions",
+  });
 
-module.exports = sessionConfig;
+  const sessionMiddleware = session({
+    secret: "secret",
+    resave: false,
+    saveUninitialized: false,
+    store: store,
+  });
+
+  return sessionMiddleware;
+}
+
+module.exports = createSessionStore;

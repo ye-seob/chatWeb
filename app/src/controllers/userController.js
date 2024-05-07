@@ -46,7 +46,8 @@ async function signup(req, res) {
       student_id,
       name: username,
       password: hashedPassword,
-      friends: 0,
+      friendCount: 0,
+      friends: [],
     });
 
     res.redirect("/");
@@ -67,8 +68,9 @@ async function login(req, res) {
 
     const isPasswordMatch = await bcrypt.compare(password, user.password);
     if (isPasswordMatch) {
+      req.session.student_id = student_id;
       req.session.username = user.name;
-      req.session.friendCount = user.friends;
+      req.session.friendCount = user.friendCount;
       res.render("home", {
         username: req.session.username,
         friendCount: req.session.friendCount,
@@ -80,8 +82,14 @@ async function login(req, res) {
     handleServerError(res, "로그인 중 오류가 발생했습니다.", error);
   }
 }
-
+function logout(req, res) {
+  req.session.destroy((err) => {
+    if (err) throw err;
+    res.redirect("/");
+  });
+}
 module.exports = {
   signup,
   login,
+  logout,
 };

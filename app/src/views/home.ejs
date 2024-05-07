@@ -15,7 +15,9 @@
       </div>
       <div class="settings">
         <img class="setting-img" src="/css/option.png" alt="Settings Icon" />
-        <button id="logout-btn">로그아웃</button>
+        <form action="/logout" method="post">
+          <button id="logout-btn">로그아웃</button>
+        </form>
       </div>
     </div>
     <div class="container">
@@ -30,7 +32,7 @@
       <div class="friend-list">
         <div class="friend-count">
           <span id="friend-count">친구 <%= friendCount %></span>
-          <button class="add-friend-btn">+</button>
+          <button class="add-friend-btn"><%- include ("./modal.ejs")%></button>
         </div>
 
         <div class="friends">

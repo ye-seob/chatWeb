@@ -1,8 +1,7 @@
 // /src/models/userModels.js
 const mongoose = require("mongoose");
-const connect = mongoose.connect("mongodb://localhost:27017/chat");
 
-const loginSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -15,12 +14,24 @@ const loginSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  friends: {
+  friendCount: {
     type: Number,
     default: 0,
   },
+  friendList: [
+    {
+      friendId: {
+        type: String,
+        required: true,
+      },
+      name: {
+        type: String,
+        required: true,
+      },
+    },
+  ],
 });
 
-const collection = new mongoose.model("users", loginSchema);
+const collection = new mongoose.model("users", userSchema);
 
 module.exports = collection;
