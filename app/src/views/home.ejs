@@ -32,13 +32,16 @@
       <div class="friend-list">
         <div class="friend-count">
           <span id="friend-count">친구 <%= friendCount %></span>
-          <button class="add-friend-btn"><%- include ("./modal.ejs")%></button>
+          <%- include ("./modal.ejs")%>
         </div>
 
         <div class="friends">
-          <div class="friend"></div>
-          <div class="friend"></div>
-          <div class="friend"></div>
+          <% friends.forEach(friend => { %>
+          <div class="friend">
+            <div class="friend-img"></div>
+            <div class="friendName"><%= friend.name %></div>
+          </div>
+          <% }); %>
         </div>
       </div>
     </div>

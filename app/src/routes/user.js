@@ -10,5 +10,5 @@ router.post("/login", userController.login);
 router.post("/logout", userController.logout);
 
 router.post("/addFriend", friendController.addFriend);
-
+router.post("/addFriend", friendController.deleteFriend);
 module.exports = router;

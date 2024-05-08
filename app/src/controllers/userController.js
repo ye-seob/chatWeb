@@ -71,9 +71,11 @@ async function login(req, res) {
       req.session.student_id = student_id;
       req.session.username = user.name;
       req.session.friendCount = user.friendCount;
+      req.session.friendList = user.friendList;
       res.render("home", {
         username: req.session.username,
         friendCount: req.session.friendCount,
+        friends: req.session.friendList,
       });
     } else {
       res.status(401).send("비밀번호가 일치하지 않습니다.");
@@ -88,6 +90,7 @@ function logout(req, res) {
     res.redirect("/");
   });
 }
+
 module.exports = {
   signup,
   login,

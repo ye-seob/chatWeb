@@ -29,10 +29,12 @@ document.getElementById("logout-btn").addEventListener("click", function () {
   })
     .then((response) => response.text())
     .then((data) => {
-      console.log(data); // '로그아웃 되었습니다.' 메시지 로깅
+      console.log(data);
       window.location.href = "/";
     })
     .catch((error) => {
       console.error("Error:", error);
     });
 });
+{
+}

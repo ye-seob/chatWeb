@@ -12,29 +12,24 @@ async function addFriend(req, res) {
       return res.status(400).send("필요한 정보가 누락되었습니다.");
     }
 
-    // 친구 찾기
     const friend = await User.findOne({ student_id: friendStudentId });
     if (!friend) {
       return res.status(404).send("친구를 찾을 수 없습니다.");
     }
 
-    // 사용자 찾기
     const user = await User.findOne({ student_id: userId });
-    if (!user) {
-      return res.status(404).send("사용자를 찾을 수 없습니다.");
+    if (userId == friendStudentId) {
+      return res.status(404).send("본인 입력하지마라");
     }
 
-    // 이미 친구인지 확인
     if (user.friendList.find((f) => f.friendId === friend.student_id)) {
       return res.status(409).send("이미 친구입니다.");
     }
 
-    // 사용자의 친구 목록에 친구 추가
     user.friendList.push({ friendId: friend.student_id, name: friend.name });
     user.friendCount += 1;
     await user.save();
 
-    // 친구의 친구 목록에 사용자 추가
     friend.friendList.push({ friendId: user.student_id, name: user.name });
     friend.friendCount += 1;
     await friend.save();
@@ -46,6 +41,9 @@ async function addFriend(req, res) {
   }
 }
 
+async function deleteFriend(req, res) {}
+
 module.exports = {
   addFriend,
+  deleteFriend,
 };
