@@ -31,17 +31,16 @@
 
       function openModal() {
         modal.style.display = "block";
+        window.onclick = function (event) {
+          if (event.target == modal) {
+            closeModal();
+          }
+        };
       }
 
       function closeModal() {
         modal.style.display = "none";
       }
-
-      window.onclick = function (event) {
-        if (event.target == modal) {
-          closeModal();
-        }
-      };
     </script>
   </body>
 </html>

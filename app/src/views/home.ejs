@@ -40,6 +40,7 @@
           <div class="friend">
             <div class="friend-img"></div>
             <div class="friendName"><%= friend.name %></div>
+            <%- include ("./deleteModal.ejs", { friendId: friend.friendId }) %>
           </div>
           <% }); %>
         </div>

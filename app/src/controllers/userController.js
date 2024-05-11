@@ -72,6 +72,7 @@ async function login(req, res) {
       req.session.username = user.name;
       req.session.friendCount = user.friendCount;
       req.session.friendList = user.friendList;
+      console.log(req.session.friendList);
       res.render("home", {
         username: req.session.username,
         friendCount: req.session.friendCount,

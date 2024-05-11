@@ -41,8 +41,53 @@ async function addFriend(req, res) {
   }
 }
 
-async function deleteFriend(req, res) {}
+async function deleteFriend(req, res) {
+  try {
+    if (!req.session) {
+      return res.status(401).send("로그인이 필요합니다.");
+    }
+    const userId = req.session.student_id;
+    const friendStudentId = req.body.friend_id;
 
+    if (!userId || !friendStudentId) {
+      return res.status(400).send("필요한 정보가 누락되었습니다.");
+    }
+
+    const user = await User.findOne({ student_id: userId });
+    const friend = await User.findOne({ student_id: friendStudentId });
+
+    if (!friend) {
+      return res.status(404).send("친구를 찾을 수 없습니다.");
+    }
+
+    // 사용자의 친구 목록에서 해당 친구 삭제
+    user.friendList = user.friendList.filter(
+      (f) => f.friendId !== friendStudentId
+    );
+    user.friendCount -= 1;
+    await user.save();
+
+    // 친구의 친구 목록에서 사용자 삭제
+    friend.friendList = friend.friendList.filter((f) => f.friendId !== userId);
+    friend.friendCount -= 1;
+    await friend.save();
+    // 친구 삭제 후 로직
+    const updatedUser = await User.findOne({ student_id: userId });
+    const updatedFriendList = updatedUser.friendList.map((friend) => ({
+      friendId: friend.friendId,
+      name: friend.name,
+    }));
+
+    // 수정된 친구 목록을 클라이언트로 전송
+    res.json({
+      message: "친구가 삭제되었습니다.",
+      updatedFriendList,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("서버 오류");
+  }
+}
 module.exports = {
   addFriend,
   deleteFriend,
