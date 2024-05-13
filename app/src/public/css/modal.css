@@ -25,6 +25,7 @@
   background-color: white;
   border: none;
   font-size: 25px;
+  margin-left: 200px;
 }
 
 #friend_id {
@@ -73,6 +74,5 @@
 }
 
 .modal-content {
-  /* 기존 스타일 유지 */
   animation: modal-open 0.5s ease forwards;
 }

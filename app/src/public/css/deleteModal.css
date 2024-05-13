@@ -9,6 +9,7 @@
   overflow: auto;
   background-color: rgba(0, 0, 0, 0.4);
 }
+
 h2 {
   font-size: 20px;
 }
@@ -24,19 +25,12 @@ h2 {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
-.minus-btn {
+
+.delete-btn {
   background-color: white;
   border: none;
   font-size: 25px;
-  margin-left: 140px;
-}
-
-#friend_id {
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 10px;
-  width: calc(100% - 22px);
-  margin-bottom: 20px;
+  margin-left: 210px;
 }
 
 .submit-btn {
@@ -60,14 +54,15 @@ h2 {
   font-weight: bold;
 }
 
-.minus-btn:hover,
-.minus-btn:focus,
+.delete-btn:hover,
+.delete-btn:focus,
 .modal-close:hover,
 .modal-close:focus {
   color: black;
   text-decoration: none;
   cursor: pointer;
 }
+
 @keyframes modal-open {
   from {
     transform: translateY(-50%);
@@ -78,6 +73,5 @@ h2 {
 }
 
 .deleteModal-content {
-  /* 기존 스타일 유지 */
   animation: modal-open 0.5s ease forwards;
 }

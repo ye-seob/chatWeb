@@ -3,9 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/css/home.css" />
     <title>Chat App</title>
-    <%- include ("./modal.ejs")%> <%- include ("./deleteModal.ejs")%>
+    <link rel="stylesheet" href="/css/modal.css" />
+    <link rel="stylesheet" href="/css/home.css" />
+    <link rel="stylesheet" href="/css/deleteModal.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   </head>
   <body>
@@ -23,63 +24,52 @@
       </div>
     </div>
     <div class="container">
-      <div id="myInfo" class="myInfo"></div>
+      <div class="myInfo">
+        <p id="username">님</p>
+      </div>
 
       <div class="friend-list">
-        <div class="friend-count"></div>
-
-        <div class="friends">
-          <div class="friend">
-            <div class="friend-img"></div>
-            <div class="friendName"></div>
-          </div>
+        <div class="friend-count">
+          <span id="friend-count">친구 </span>
+          <button class="plus-btn" onclick="openModal()">&plus;</button>
         </div>
+
+        <div class="friends"></div>
       </div>
     </div>
     <img
       style="height: 300px; margin-top: 180px; margin-left: 250px"
       src="/css/회색로고.jpg"
     />
-    <script>
-      $(document).ready(function () {
-        $.ajax({
-          url: "/getUserInfo", // 서버의 친구 목록을 불러오는 라우트
-          type: "GET", // HTTP 요청 방식
-          success: function (data) {
-            // 요청이 성공했을 때 실행될 콜백 함수
-            displayInfo(data.name, data.friendList); // 친구 목록을 화면에 표시하는 함수
-          },
-          error: function (xhr, status, error) {
-            // 요청이 실패했을 때 실행될 콜백 함수
-            console.error("Error fetching friends:", error);
-          },
-        });
-      });
 
-      function displayInfo(name, friends) {
-        const userName = $(".myInfo");
-        userName.append(`<div id="myInfo" class="myInfo">${name}님 </div> `);
+    <div id="myModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2>친구 추가</h2>
+        <form action="/addFriend" method="post">
+          <input
+            type="text"
+            id="friend_id"
+            name="friend_id"
+            placeholder="학번을 입력해주세요."
+            required
+            autocomplete="off"
+          />
+          <button class="btn" type="submit">확인</button>
+        </form>
+      </div>
+    </div>
 
-        // 화면에 친구 목록을 표시하는 로직
-        const friendsContainer = $(".friends");
-
-        friendsContainer.empty(); // 기존 목록을 비우고
-        friends.forEach((friend) => {
-          friendsContainer.append(
-            `<div class="friend">${friend.name}<button class="minus-btn" onclick="openDeleteModal('${friend.friendId}')">&#45;</button></div>`
-          ); // 새로운 목록을 추가
-        });
-
-        // 화면에 친구 목록을 표시하는 로직
-        const friendCount = $(".friend-count");
-        friendCount.empty(); // 기존 목록을 비우고
-        friendCount.append(
-          `<div id="friend-count">친구 ${friends.length} 명  <button class="plus-btn" onclick="openModal()">&plus;</button>
-    `
-        );
-        friendCount.append(``);
-      }
-    </script>
+    <div id="myDeleteModal" class="deleteModal">
+      <div class="deleteModal-content">
+        <span class="modal-close" onclick="closeDeleteModal()">&times;</span>
+        <h2>친구를 삭제하시겠습니까?</h2>
+        <form id="deleteFriendForm" action="/deleteFriend" method="post">
+          <input type="hidden" id="friendIdInput" name="friend_id" value="" />
+          <button class="submit-btn" type="submit">확인</button>
+        </form>
+      </div>
+    </div>
 
     <script src="/js/home.js"></script>
   </body>
