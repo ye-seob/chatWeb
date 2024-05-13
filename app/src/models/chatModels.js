@@ -1,22 +1,28 @@
 const mongoose = require("mongoose");
-const connect = mongoose.connect("mongodb://localhost:27017/chat");
+const Schema = mongoose.Schema;
 
-//스키마
-const chatSchema = new mongoose.Schema({
-  sender_id: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+// 채팅 스키마 정의
+const ChatSchema = new Schema({
+  room: {
+    type: Schema.Types.ObjectId,
+    ref: "ChatRoom",
+    required: true,
   },
-  receiver_id: {
-    type: mongoose.Schema.Types.ObjectId,
+  user: {
+    type: Schema.Types.ObjectId,
     ref: "User",
+    required: true,
   },
   message: {
     type: String,
     required: true,
   },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
-const collection = new mongoose.model("chat", chatSchema);
+const Chat = mongoose.model("Chat", ChatSchema);
 
-module.exports = collection;
+module.exports = Chat;

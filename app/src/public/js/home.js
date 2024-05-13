@@ -22,19 +22,3 @@ document
       sendMessage();
     }
   });
-
-document.getElementById("logout-btn").addEventListener("click", function () {
-  fetch("/logout", {
-    method: "POST",
-  })
-    .then((response) => response.text())
-    .then((data) => {
-      console.log(data);
-      window.location.href = "/";
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-    });
-});
-{
-}

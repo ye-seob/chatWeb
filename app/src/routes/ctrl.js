@@ -8,12 +8,12 @@ const signup = (req, res) => {
   res.render("signup");
 };
 
-const test = (req, res) => {
-  res.render("test");
+const home = (req, res) => {
+  res.render("home");
 };
 
 module.exports = {
   login,
   signup,
-  test,
+  home,
 };

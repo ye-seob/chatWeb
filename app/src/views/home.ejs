@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/css/home.css" />
     <title>Chat App</title>
+    <%- include ("./modal.ejs")%> <%- include ("./deleteModal.ejs")%>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   </head>
   <body>
     <div class="sidebar">
@@ -21,40 +23,63 @@
       </div>
     </div>
     <div class="container">
-      <div class="myInfo">
-        <% if (username) { %>
-        <p><%= username %>님</p>
-        <% } else { %>
-        <p>Welcome, Guest!</p>
-        <% } %>
-      </div>
+      <div id="myInfo" class="myInfo"></div>
 
       <div class="friend-list">
-        <div class="friend-count">
-          <span id="friend-count">친구 <%= friendCount %></span>
-          <%- include ("./modal.ejs")%>
-        </div>
+        <div class="friend-count"></div>
 
         <div class="friends">
-          <% friends.forEach(friend => { %>
           <div class="friend">
             <div class="friend-img"></div>
-            <div class="friendName"><%= friend.name %></div>
-            <%- include ("./deleteModal.ejs", { friendId: friend.friendId }) %>
+            <div class="friendName"></div>
           </div>
-          <% }); %>
         </div>
       </div>
     </div>
-    <div class="chat-container">
-      <div class="chat-room">
-        <div class="chat-view" id="chat-view"></div>
-        <div class="chat-send-box">
-          <input class="send" type="text" id="message-input" />
-          <button class="send-btn" onclick="sendMessage()">전송</button>
-        </div>
-      </div>
-    </div>
+    <img
+      style="height: 300px; margin-top: 180px; margin-left: 250px"
+      src="/css/회색로고.jpg"
+    />
+    <script>
+      $(document).ready(function () {
+        $.ajax({
+          url: "/getUserInfo", // 서버의 친구 목록을 불러오는 라우트
+          type: "GET", // HTTP 요청 방식
+          success: function (data) {
+            // 요청이 성공했을 때 실행될 콜백 함수
+            displayInfo(data.name, data.friendList); // 친구 목록을 화면에 표시하는 함수
+          },
+          error: function (xhr, status, error) {
+            // 요청이 실패했을 때 실행될 콜백 함수
+            console.error("Error fetching friends:", error);
+          },
+        });
+      });
+
+      function displayInfo(name, friends) {
+        const userName = $(".myInfo");
+        userName.append(`<div id="myInfo" class="myInfo">${name}님 </div> `);
+
+        // 화면에 친구 목록을 표시하는 로직
+        const friendsContainer = $(".friends");
+
+        friendsContainer.empty(); // 기존 목록을 비우고
+        friends.forEach((friend) => {
+          friendsContainer.append(
+            `<div class="friend">${friend.name}<button class="minus-btn" onclick="openDeleteModal('${friend.friendId}')">&#45;</button></div>`
+          ); // 새로운 목록을 추가
+        });
+
+        // 화면에 친구 목록을 표시하는 로직
+        const friendCount = $(".friend-count");
+        friendCount.empty(); // 기존 목록을 비우고
+        friendCount.append(
+          `<div id="friend-count">친구 ${friends.length} 명  <button class="plus-btn" onclick="openModal()">&plus;</button>
+    `
+        );
+        friendCount.append(``);
+      }
+    </script>
 
     <script src="/js/home.js"></script>
   </body>

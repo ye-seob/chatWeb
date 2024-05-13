@@ -3,8 +3,8 @@
 const collection = require("../models/userModels");
 const bcrypt = require("bcrypt");
 
-// 사용자 데이터 추출 함수
 function extractUserData(body) {
+  //body에는 학번,이름,비밀번호가 담겨온다
   const { student_id, username, password } = body;
   if (!student_id || !password) {
     throw new Error("아이디 또는 비밀번호가 입력되지 않았습니다.");
@@ -31,17 +31,22 @@ function handleServerError(res, message, error) {
 // 회원가입 처리 함수
 async function signup(req, res) {
   try {
+    //req.body에는 학번,이름,비밀번호가 담겨온다
     const { student_id, username, password } = extractUserData(req.body);
 
     validateData(student_id, password);
 
+    //콜렉션에 입력된 학번을 검색한다
     const existingUser = await collection.findOne({ student_id });
+
     if (existingUser) {
       return res.send("이미 가입된 학번입니다.");
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    //비밀번호 암호화
+    const hashedPassword = await bcrypt.hash(password, 5);
 
+    //회원가입
     await collection.create({
       student_id,
       name: username,
@@ -49,7 +54,6 @@ async function signup(req, res) {
       friendCount: 0,
       friends: [],
     });
-
     res.redirect("/");
   } catch (error) {
     handleServerError(res, "회원가입 중 오류가 발생했습니다.", error);
@@ -59,25 +63,24 @@ async function signup(req, res) {
 // 로그인 처리 함수
 async function login(req, res) {
   try {
+    //req.body에는 학번,비밀번호가 담겨온다
     const { student_id, password } = extractUserData(req.body);
 
     validateData(student_id, password);
 
+    //콜렉션에 입력된 학번을 검색한다
     const user = await collection.findOne({ student_id });
     if (!user) return res.status(404).send("등록되지 않은 학번입니다.");
 
     const isPasswordMatch = await bcrypt.compare(password, user.password);
     if (isPasswordMatch) {
+      //세션 저장
       req.session.student_id = student_id;
       req.session.username = user.name;
       req.session.friendCount = user.friendCount;
       req.session.friendList = user.friendList;
-      console.log(req.session.friendList);
-      res.render("home", {
-        username: req.session.username,
-        friendCount: req.session.friendCount,
-        friends: req.session.friendList,
-      });
+
+      res.redirect("/home");
     } else {
       res.status(401).send("비밀번호가 일치하지 않습니다.");
     }
@@ -85,6 +88,8 @@ async function login(req, res) {
     handleServerError(res, "로그인 중 오류가 발생했습니다.", error);
   }
 }
+
+//로그아웃 , 세션 삭제
 function logout(req, res) {
   req.session.destroy((err) => {
     if (err) throw err;
@@ -92,8 +97,17 @@ function logout(req, res) {
   });
 }
 
+//유저 정보 전달
+function getUserInfo(req, res) {
+  res.json({
+    name: req.session.username,
+    friendList: req.session.friendList,
+  });
+}
+
 module.exports = {
   signup,
   login,
   logout,
+  getUserInfo,
 };

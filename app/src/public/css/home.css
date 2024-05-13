@@ -118,7 +118,7 @@ body {
 .chat-container {
   width: 1130px;
   position: relative;
-  background-color: #f8f9fa; /* 배경색 추가 */
+  background-color: white;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 추가 */
   padding: 20px; /* 패딩 추가 */
 }
