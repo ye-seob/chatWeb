@@ -14,10 +14,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  friendCount: {
-    type: Number,
-    default: 0,
-  },
+
   friendList: [
     {
       friendId: {

@@ -63,7 +63,7 @@ function loadFriends() {
       var friendsList = $(".friends");
       friendsList.empty();
       $("#username").text(response.username + "님");
-      $("#friend-count").text("친구 " + response.friendCount);
+      $("#friend-count").text("친구 " + response.friendList.length);
       response.friendList.forEach(function (friend) {
         var friendHTML = `<div class="friend">
                     <div class="friend-img"></div>
@@ -134,5 +134,19 @@ function openDeleteModal(friendId) {
       e.preventDefault(); // 폼 제출 기본 동작 방지
       deleteFriend(); // 친구 삭제 함수 호출
     });
+  });
+}
+
+function acyncMovePage(url) {
+  // ajax option
+  var ajaxOption = {
+    url: "chat",
+    async: true,
+    type: "POST",
+    dataType: "html",
+    cache: false,
+  };
+  $.ajax(ajaxOption).done(function (data) {
+    $(".switch").html(data);
   });
 }

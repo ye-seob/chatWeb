@@ -7,5 +7,6 @@ const ctrl = require("./ctrl");
 router.get("/", ctrl.login);
 router.get("/signup", ctrl.signup);
 router.get("/home", ctrl.home);
+router.post("/chat", ctrl.chat);
 
 module.exports = router;

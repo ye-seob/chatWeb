@@ -114,3 +114,15 @@ body {
   font-size: 16px;
   font-weight: 600;
 }
+.switch {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 1130px;
+}
+
+.switch img {
+  width: 300px;
+  height: 300px;
+  object-fit: contain;
+}

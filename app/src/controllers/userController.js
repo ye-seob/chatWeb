@@ -52,7 +52,6 @@ async function signup(req, res) {
       student_id,
       name: username,
       password: hashedPassword,
-      friendCount: 0,
       friends: [],
     });
     res.redirect("/");
@@ -78,13 +77,8 @@ async function login(req, res) {
       //세션 저장
       req.session.student_id = student_id;
       req.session.username = user.name;
-      req.session.friendCount = user.friendCount;
       req.session.friendList = user.friendList;
-      res.render("home", {
-        username: req.session.username,
-        friendCount: req.session.friendCount,
-        friends: req.session.friendList,
-      });
+      res.redirect("/home");
     } else {
       res.status(401).send("비밀번호가 일치하지 않습니다.");
     }
@@ -113,10 +107,8 @@ function getUserInfo(req, res) {
       if (!user) {
         return res.status(404).json({ error: "User not found" });
       }
-      console.log(user);
       res.json({
         username: user.name,
-        friendCount: user.friendCount,
         friendList: user.friendList,
       });
     })

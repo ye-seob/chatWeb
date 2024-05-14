@@ -12,8 +12,12 @@ const home = (req, res) => {
   res.render("home");
 };
 
+const chat = (req, res) => {
+  res.render("chatRoom");
+};
 module.exports = {
   login,
   signup,
   home,
+  chat,
 };

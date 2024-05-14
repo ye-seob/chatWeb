@@ -13,8 +13,13 @@
     <div class="sidebar">
       <div class="top-icons">
         <img class="logo-img" src="/css/logo.png" alt="Logo Icon" />
-        <img class="profile-img" src="/css/person.png" alt="Friend Icon" />
-        <img class="chat-img" src="/css/chat.png" alt="Chat Icon" />
+        <img class="profile-img" src="./css/person.png" alt="Friend Icon" />
+        <img
+          class="chat-img"
+          src="/css/chat.png"
+          alt="Chat Icon"
+          onclick="acyncMovePage('/chatRoom.ejs')"
+        />
       </div>
       <div class="settings">
         <img class="setting-img" src="/css/option.png" alt="Settings Icon" />
@@ -37,11 +42,10 @@
         <div class="friends"></div>
       </div>
     </div>
-    <img
-      style="height: 300px; margin-top: 180px; margin-left: 250px"
-      src="/css/회색로고.jpg"
-    />
 
+    <div class="switch">
+      <img src="/css/회색로고.jpg" />
+    </div>
     <div id="myModal" class="modal">
       <div class="modal-content">
         <span class="close" onclick="closeModal()">&times;</span>

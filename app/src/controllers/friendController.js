@@ -27,11 +27,9 @@ async function addFriend(req, res) {
     }
 
     user.friendList.push({ friendId: friend.student_id, name: friend.name });
-    user.friendCount += 1;
     await user.save();
 
     friend.friendList.push({ friendId: user.student_id, name: user.name });
-    friend.friendCount += 1;
     await friend.save();
 
     res.send({
@@ -66,12 +64,10 @@ async function deleteFriend(req, res) {
     user.friendList = user.friendList.filter(
       (f) => f.friendId !== friendStudentId
     );
-    user.friendCount -= 1;
     await user.save();
 
     // 친구의 친구 목록에서 사용자 삭제
     friend.friendList = friend.friendList.filter((f) => f.friendId !== userId);
-    friend.friendCount -= 1;
     await friend.save();
 
     res.send({
