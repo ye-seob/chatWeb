@@ -46,17 +46,15 @@
       <div class="modal-content">
         <span class="close" onclick="closeModal()">&times;</span>
         <h2>친구 추가</h2>
-        <form action="/addFriend" method="post">
-          <input
-            type="text"
-            id="friend_id"
-            name="friend_id"
-            placeholder="학번을 입력해주세요."
-            required
-            autocomplete="off"
-          />
-          <button class="btn" type="submit">확인</button>
-        </form>
+        <input
+          type="text"
+          id="friend_id"
+          name="friend_id"
+          placeholder="학번을 입력해주세요."
+          required
+          autocomplete="off"
+        />
+        <button class="btn" type="submit" onclick="addFriend()">확인</button>
       </div>
     </div>
 
@@ -64,10 +62,8 @@
       <div class="deleteModal-content">
         <span class="modal-close" onclick="closeDeleteModal()">&times;</span>
         <h2>친구를 삭제하시겠습니까?</h2>
-        <form id="deleteFriendForm" action="/deleteFriend" method="post">
-          <input type="hidden" id="friendIdInput" name="friend_id" value="" />
-          <button class="submit-btn" type="submit">확인</button>
-        </form>
+        <input type="hidden" id="friendIdInput" name="friend_id" value="" />
+        <button class="submit-btn" type="submit">확인</button>
       </div>
     </div>
 

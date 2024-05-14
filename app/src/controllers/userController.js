@@ -1,5 +1,6 @@
 // src/controllers/userController.js
 
+const { Collection } = require("mongoose");
 const collection = require("../models/userModels");
 const bcrypt = require("bcrypt");
 
@@ -99,14 +100,29 @@ function logout(req, res) {
     res.redirect("/");
   });
 }
-
-//유저 정보 전달
 function getUserInfo(req, res) {
-  res.json({
-    username: req.session.username,
-    friendCount: req.session.friendCount,
-    friendList: req.session.friendList,
-  });
+  const student_id = req.session.student_id; // 세션에서 사용자 ID 가져오기
+
+  if (!student_id) {
+    return res.status(401).json({ error: "Unauthorized" }); // 세션에 student_id가 없을 경우
+  }
+
+  collection
+    .findOne({ student_id: student_id })
+    .then((user) => {
+      if (!user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+      console.log(user);
+      res.json({
+        username: user.name,
+        friendCount: user.friendCount,
+        friendList: user.friendList,
+      });
+    })
+    .catch((err) => {
+      return res.status(500).json({ error: "Internal server error" });
+    });
 }
 
 module.exports = {

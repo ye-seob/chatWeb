@@ -34,7 +34,9 @@ async function addFriend(req, res) {
     friend.friendCount += 1;
     await friend.save();
 
-    res.send("친구가 추가되었습니다.");
+    res.send({
+      message: "친구가 추가되었습니다.",
+    });
   } catch (error) {
     console.error(error);
     res.status(500).send("서버 오류");
@@ -72,7 +74,9 @@ async function deleteFriend(req, res) {
     friend.friendCount -= 1;
     await friend.save();
 
-    res.send("친구가 삭제되었습니다");
+    res.send({
+      message: "친구가 삭제되었습니다",
+    });
   } catch (error) {
     console.error(error);
     res.status(500).send("서버 오류");

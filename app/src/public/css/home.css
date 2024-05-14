@@ -76,7 +76,6 @@ body {
 
   border-right: none;
   border-left: none;
-
   text-align: left;
 
   display: flex;
@@ -99,17 +98,19 @@ body {
   display: flex;
   align-items: center;
   padding: 0px 20px;
+
+  justify-content: flex-start;
 }
 
 .friend-img {
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   background-color: #ccc;
   border-radius: 50%;
 }
 
-.friendName {
-  margin-left: 15px;
-  font-size: 15px;
+.friendName p {
+  margin: 0 6px;
+  font-size: 16px;
   font-weight: 600;
 }
