@@ -17,12 +17,10 @@ $(document).ready(function () {
   loadFriends();
 });
 
-// 모달 관련 변수
 var addModal = document.getElementById("myModal");
 var deleteModal = document.getElementById("myDeleteModal");
 var friendIdInput = document.getElementById("friendIdInput");
 
-// 모달 열기
 function openModal() {
   addModal.style.display = "block";
   window.onclick = function (event) {
@@ -32,12 +30,9 @@ function openModal() {
   };
 }
 
-// 모달 닫기
 function closeModal() {
   addModal.style.display = "none";
 }
-
-// 삭제 모달 열기
 function openDeleteModal(friendId) {
   deleteModal.style.display = "block";
   friendIdInput.value = friendId;
@@ -46,14 +41,24 @@ function openDeleteModal(friendId) {
       closeDeleteModal();
     }
   };
-}
+  $(document).ready(function () {
+    $(".submit-btn").on("click", function (e) {
+      e.preventDefault();
+      deleteFriend();
+    });
 
-// 삭제 모달 닫기
+    $(document).on("keydown", function (e) {
+      if (deleteModal.style.display === "block" && e.key === "Enter") {
+        e.preventDefault();
+        deleteFriend();
+      }
+    });
+  });
+}
 function closeDeleteModal() {
   deleteModal.style.display = "none";
 }
 
-// 친구 목록 불러오기
 function loadFriends() {
   $.ajax({
     url: "/getUserInfo",
@@ -65,11 +70,14 @@ function loadFriends() {
       $("#username").text(response.username + "님");
       $("#friend-count").text("친구 " + response.friendList.length);
       response.friendList.forEach(function (friend) {
-        var friendHTML = `<div class="friend">
-                    <div class="friend-img"></div>
-                    <div class="friendName"><p>${friend.name}</p></div>
-                    <button class="delete-btn" onclick="openDeleteModal('${friend.friendId}')">&minus;</button>
-                </div>`;
+        var friendHTML = `
+        <div class="friend">
+            <div class="friend-profile">
+                <div class="friend-img"></div>
+                <div class="friendName"><p>${friend.name}</p></div>
+            </div>
+            <button class="delete-btn" onclick="openDeleteModal('${friend.friendId}')">&minus;</button>
+          </div>`;
         friendsList.append(friendHTML);
       });
     },
@@ -78,22 +86,27 @@ function loadFriends() {
     },
   });
 }
+document
+  .getElementById("friend_id")
+  .addEventListener("keypress", function (event) {
+    if (event.key === "Enter") {
+      addFriend();
+    }
+  });
 
 function addFriend() {
-  var friendId = $("#friend_id").val().trim(); // 입력된 학번 가져오기
+  var friendId = $("#friend_id").val().trim();
   if (friendId !== "") {
     $.ajax({
-      url: "/addFriend", // 요청 보낼 서버의 경로
-      type: "POST", // 데이터 전송 방식
-      data: { friend_id: friendId }, // 서버로 보낼 데이터
+      url: "/addFriend",
+      type: "POST",
+      data: { friend_id: friendId },
       success: function (response) {
-        // 요청 성공 시 실행될 함수
         alert("친구가 추가되었습니다.");
-        closeModal(); // 모달 창 닫기
-        loadFriends(); // 친구 목록 새로고침
+        closeModal();
+        loadFriends();
       },
       error: function (xhr, status, error) {
-        // 요청 실패 시 실행될 함수
         alert("친구 추가에 실패했습니다: " + error);
       },
     });
@@ -102,15 +115,15 @@ function addFriend() {
   }
 }
 function deleteFriend() {
-  var friendId = $("#friendIdInput").val(); // 삭제할 친구의 ID 가져오기
+  var friendId = $("#friendIdInput").val();
   $.ajax({
-    url: "/deleteFriend", // 요청 보낼 서버의 경로
-    type: "POST", // 데이터 전송 방식
-    data: { friend_id: friendId }, // 서버로 보낼 데이터
+    url: "/deleteFriend",
+    type: "POST",
+    data: { friend_id: friendId },
     success: function (response) {
       alert("친구가 삭제되었습니다.");
-      closeDeleteModal(); // 모달 창 닫기
-      loadFriends(); // 친구 목록 새로고침
+      closeDeleteModal();
+      loadFriends();
     },
     error: function (xhr, status, error) {
       alert("친구 삭제에 실패했습니다: " + error);
@@ -118,31 +131,11 @@ function deleteFriend() {
   });
 }
 
-// 삭제 버튼에 deleteFriend 함수 연결
-function openDeleteModal(friendId) {
-  deleteModal.style.display = "block";
-  friendIdInput.value = friendId;
-  window.onclick = function (event) {
-    if (event.target == deleteModal) {
-      closeDeleteModal();
-    }
-  };
-  // '확인' 버튼 클릭 이벤트에 deleteFriend 함수 바인딩
-  $(document).ready(function () {
-    // 삭제 모달의 '확인' 버튼에 대한 이벤트 리스너 설정
-    $(".submit-btn").on("click", function (e) {
-      e.preventDefault(); // 폼 제출 기본 동작 방지
-      deleteFriend(); // 친구 삭제 함수 호출
-    });
-  });
-}
-
-function acyncMovePage(url) {
-  // ajax option
+function MovePage(url) {
   var ajaxOption = {
-    url: "chat",
+    url: url,
     async: true,
-    type: "POST",
+    type: "GET",
     dataType: "html",
     cache: false,
   };

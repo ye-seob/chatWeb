@@ -6,7 +6,7 @@ body {
 }
 
 .sidebar {
-  width: 80px;
+  width: 6vw;
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -42,6 +42,14 @@ body {
   margin-bottom: 20px;
 }
 
+.profile-img:hover,
+.chat-img:hover,
+.setting-img:hover {
+  background-color: #c7c7c7;
+  cursor: pointer;
+  border-radius: 10px;
+  box-shadow: 0 0 0 10px #c7c7c7;
+}
 .settings button {
   background-color: transparent;
   border: none;
@@ -56,14 +64,13 @@ body {
 
 .container {
   height: 100vh;
-  width: 340px;
+  width: 20vw;
   border-right: 1px solid #888888;
 }
 
 .myInfo {
   padding: 15px;
   text-align: right;
-  margin-right: 10px;
   font-size: 15px;
   font-weight: 600;
 }
@@ -97,32 +104,48 @@ body {
   border-bottom: 1px solid #888888;
   display: flex;
   align-items: center;
-  padding: 0px 20px;
+  justify-content: space-between;
+}
 
-  justify-content: flex-start;
+.friend:hover {
+  background-color: #f0f0f0;
+}
+.friend:hover .delete-btn {
+  border-radius: 10px;
+  background-color: #d9d8d8;
+}
+.friend-profile {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .friend-img {
   width: 40px;
   height: 40px;
   background-color: #ccc;
+  margin-left: 10px;
   border-radius: 50%;
 }
-
+.friendName {
+  margin-left: 10px;
+}
 .friendName p {
-  margin: 0 6px;
+  width: 60px;
+  height: 30px;
   font-size: 16px;
   font-weight: 600;
 }
+
 .switch {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 1130px;
+  width: 75vw;
 }
 
 .switch img {
-  width: 300px;
-  height: 300px;
+  width: 500px;
+  height: 500px;
   object-fit: contain;
 }
