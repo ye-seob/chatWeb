@@ -1,18 +1,3 @@
-// 메시지 보내기 함수
-function sendMessage() {
-  var messageInput = document.getElementById("message-input");
-  var message = messageInput.value.trim();
-
-  if (message !== "") {
-    var chatView = document.getElementById("chat-view");
-    var messageElement = document.createElement("div");
-    messageElement.classList.add("message");
-    messageElement.textContent = message;
-    chatView.appendChild(messageElement);
-    chatView.scrollTop = chatView.scrollHeight;
-    messageInput.value = "";
-  }
-} // 문서 준비가 완료되면 실행되는 함수
 $(document).ready(function () {
   loadFriends();
 });
@@ -131,15 +116,15 @@ function deleteFriend() {
   });
 }
 
-function MovePage(url) {
-  var ajaxOption = {
-    url: url,
-    async: true,
+function MovePage(page) {
+  $.ajax({
+    url: `/${page}`,
     type: "GET",
-    dataType: "html",
-    cache: false,
-  };
-  $.ajax(ajaxOption).done(function (data) {
-    $(".switch").html(data);
+    success: function (data) {
+      $(".switch").html(data);
+    },
+    error: function (xhr, status, error) {
+      console.error("페이지를 불러오는 중 오류가 발생했습니다:", status, error);
+    },
   });
 }

@@ -8,5 +8,6 @@ router.get("/", ctrl.login);
 router.get("/signup", ctrl.signup);
 router.get("/home", ctrl.home);
 router.get("/chat", ctrl.chat);
+router.get("/profile", ctrl.profile);
 
 module.exports = router;

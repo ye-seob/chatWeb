@@ -62,12 +62,6 @@ body {
   background-color: rgba(0, 0, 0, 0.1);
 }
 
-.container {
-  height: 100vh;
-  width: 20vw;
-  border-right: 1px solid #888888;
-}
-
 .myInfo {
   padding: 15px;
   text-align: right;
@@ -137,15 +131,27 @@ body {
   font-weight: 600;
 }
 
-.switch {
+.BL-Logo {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 75vw;
+  width: 100%;
 }
 
-.switch img {
+.BL-Logo img {
   width: 500px;
   height: 500px;
   object-fit: contain;
+}
+
+.switch {
+  display: flex;
+  align-items: center;
+  width: 94vw;
+}
+
+.container {
+  height: 100vh;
+  width: 25vw;
+  border-right: 1px solid #888888;
 }

@@ -13,7 +13,12 @@
     <div class="sidebar">
       <div class="top-icons">
         <img class="logo-img" src="/css/logo.png" alt="Logo Icon" />
-        <img class="profile-img" src="./css/person.png" alt="Friend Icon" />
+        <img
+          class="profile-img"
+          src="./css/person.png"
+          alt="Friend Icon"
+          onclick="MovePage('profile')"
+        />
         <img
           class="chat-img"
           src="/css/chat.png"
@@ -28,49 +33,7 @@
         </form>
       </div>
     </div>
-    <div class="container">
-      <div class="myInfo">
-        <p id="username">님</p>
-      </div>
-
-      <div class="friend-list">
-        <div class="friend-count">
-          <span id="friend-count">친구 </span>
-          <button class="plus-btn" onclick="openModal()">&plus;</button>
-        </div>
-
-        <div class="friends"></div>
-      </div>
-    </div>
-
-    <div class="switch">
-      <img src="/css/회색로고.jpg" />
-    </div>
-
-    <div id="myModal" class="modal">
-      <div class="modal-content">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <h2>친구 추가</h2>
-        <input
-          type="text"
-          id="friend_id"
-          name="friend_id"
-          placeholder="학번을 입력해주세요."
-          required
-          autocomplete="off"
-        />
-        <button class="btn" type="submit" onclick="addFriend()">확인</button>
-      </div>
-    </div>
-
-    <div id="myDeleteModal" class="deleteModal">
-      <div class="deleteModal-content">
-        <span class="modal-close" onclick="closeDeleteModal()">&times;</span>
-        <h2>친구를 삭제하시겠습니까?</h2>
-        <input type="hidden" id="friendIdInput" name="friend_id" value="" />
-        <button class="submit-btn" type="submit">확인</button>
-      </div>
-    </div>
+    <div class="switch"></div>
 
     <script src="/js/home.js"></script>
   </body>
