@@ -3,6 +3,7 @@ const app = express();
 const home = require("./src/routes/index");
 const connectToDatabase = require("./config/db");
 const userRoutes = require("./src/routes/user");
+const chatRoutes = require("./src/routes/chat");
 const createSessionStore = require("./session/session");
 
 // DB 연결
@@ -23,5 +24,6 @@ app.use(express.static(`${__dirname}/src/public`));
 app.use(sessionMiddleware);
 app.use("/", home);
 app.use("/", userRoutes);
+app.use("/", chatRoutes);
 
 module.exports = app;

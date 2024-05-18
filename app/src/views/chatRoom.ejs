@@ -8,8 +8,20 @@
     <link rel="stylesheet" href="/css/chat.css" />
   </head>
   <body>
-    <div class="container"></div>
-    <div class="chatt">
+    <div class="container">
+      <div class="myInfo">
+        <p id="username">님</p>
+      </div>
+
+      <div class="chat-list">
+        <div class="chat-count">
+          <span id="chat-count">개설된 채팅방 </span>
+        </div>
+
+        <div class="chatRoom"></div>
+      </div>
+    </div>
+    <div class="chat-wrap">
       <div class="chat-room">
         <div class="chat-view" id="chat-view"></div>
         <div class="chat-send-box">
@@ -25,22 +37,11 @@
     </div>
 
     <script src="/js/home.js"></script>
+    <script src="/js/chat.js"></script>
     <script>
-      // 메시지 보내기 함수
-      function sendMessage() {
-        var messageInput = document.getElementById("message-input");
-        var message = messageInput.value.trim();
-
-        if (message !== "") {
-          var chatView = document.getElementById("chat-view");
-          var messageElement = document.createElement("div");
-          messageElement.classList.add("message");
-          messageElement.textContent = message;
-          chatView.appendChild(messageElement);
-          chatView.scrollTop = chatView.scrollHeight;
-          messageInput.value = "";
-        }
-      }
+      $(document).ready(function () {
+        loadChatRoom();
+      });
     </script>
   </body>
 </html>

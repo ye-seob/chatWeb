@@ -56,7 +56,7 @@ function loadFriends() {
       $("#friend-count").text("친구 " + response.friendList.length);
       response.friendList.forEach(function (friend) {
         var friendHTML = `
-        <div class="friend">
+        <div class="friend" data-friend-id="${friend.friendId}">
             <div class="friend-profile">
                 <div class="friend-img"></div>
                 <div class="friendName"><p>${friend.name}</p></div>
@@ -128,3 +128,22 @@ function MovePage(page) {
     },
   });
 }
+function createChatRoom(friendId, friendName) {
+  $.ajax({
+    url: "/createChatRoom",
+    type: "POST",
+    data: { friendId: friendId, friendName: friendName },
+    success: function (response) {
+      MovePage("chat");
+    },
+    error: function (xhr, status, error) {
+      alert("채팅방 생성에 실패했습니다: " + error);
+    },
+  });
+}
+
+$(document).on("dblclick", ".friend", function () {
+  const friendId = $(this).data("friend-id");
+  const friendName = $(this).find(".friendName p").text();
+  createChatRoom(friendId, friendName);
+});

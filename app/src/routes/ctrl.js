@@ -15,6 +15,7 @@ const home = (req, res) => {
 const chat = (req, res) => {
   res.render("chatRoom");
 };
+
 const profile = (req, res) => {
   res.render("profile");
 };

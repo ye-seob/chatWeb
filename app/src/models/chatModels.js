@@ -1,28 +1,21 @@
 const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
 
-// 채팅 스키마 정의
-const ChatSchema = new Schema({
-  room: {
-    type: Schema.Types.ObjectId,
-    ref: "ChatRoom",
-    required: true,
-  },
-  user: {
-    type: Schema.Types.ObjectId,
+const messageSchema = new mongoose.Schema({
+  senderId: {
+    type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     required: true,
   },
-  message: {
+  text: {
     type: String,
     required: true,
   },
-  createdAt: {
+  timestamp: {
     type: Date,
     default: Date.now,
   },
 });
 
-const Chat = mongoose.model("Chat", ChatSchema);
+const Message = mongoose.model("Message", messageSchema);
 
-module.exports = Chat;
+module.exports = Message;

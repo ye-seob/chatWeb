@@ -1,24 +1,25 @@
 const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
 
-// 채팅룸 스키마 정의
-const ChatRoomSchema = new Schema({
-  name: {
+const chatRoomSchema = new mongoose.Schema({
+  roomName: {
     type: String,
     required: true,
   },
-  users: [
+  participants: [
     {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "User",
+      required: true,
     },
   ],
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
+  messages: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Message",
+    },
+  ],
 });
 
-const ChatRoom = mongoose.model("ChatRoom", ChatRoomSchema);
+const ChatRoom = mongoose.model("ChatRoom", chatRoomSchema);
 
 module.exports = ChatRoom;
