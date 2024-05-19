@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Chat App</title>
+    <title>Chat</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="/css/chat.css" />
   </head>
@@ -12,17 +12,16 @@
       <div class="myInfo">
         <p id="username">님</p>
       </div>
-
       <div class="chat-list">
         <div class="chat-count">
           <span id="chat-count">개설된 채팅방 </span>
         </div>
-
         <div class="chatRoom"></div>
       </div>
     </div>
     <div class="chat-wrap">
       <div class="chat-room">
+        <div class="roomName">방 이름</div>
         <div class="chat-view" id="chat-view"></div>
         <div class="chat-send-box">
           <input
@@ -35,13 +34,7 @@
         </div>
       </div>
     </div>
-
     <script src="/js/home.js"></script>
     <script src="/js/chat.js"></script>
-    <script>
-      $(document).ready(function () {
-        loadChatRoom();
-      });
-    </script>
   </body>
 </html>

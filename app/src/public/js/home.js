@@ -141,9 +141,18 @@ function createChatRoom(friendId, friendName) {
     },
   });
 }
+var isChatRoomCreating = false;
 
 $(document).on("dblclick", ".friend", function () {
+  if (isChatRoomCreating) return; // 채팅방 생성 중이면 중복 생성 방지
+
+  isChatRoomCreating = true; // 플래그 설정
   const friendId = $(this).data("friend-id");
   const friendName = $(this).find(".friendName p").text();
+
   createChatRoom(friendId, friendName);
+
+  setTimeout(() => {
+    isChatRoomCreating = false; // 일정 시간 후 플래그 해제
+  }, 1000); // 1초 후 플래그 해제
 });

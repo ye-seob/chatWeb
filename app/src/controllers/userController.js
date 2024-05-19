@@ -75,6 +75,7 @@ async function login(req, res) {
     const isPasswordMatch = await bcrypt.compare(password, user.password);
     if (isPasswordMatch) {
       //세션 저장
+      req.session._id = user._id;
       req.session.student_id = student_id;
       req.session.username = user.name;
       req.session.friendList = user.friendList;
