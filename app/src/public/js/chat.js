@@ -1,29 +1,27 @@
 $(document).ready(function () {
   loadChatRoom();
-  setInterval(loadChatRoom, 3000);
-  //setInterval(loadMessages, 3000); //3초
+  AutoRefresh();
 });
 
-// 메시지 보내기 함수
+let isSending = false; //중복으로 보내지는 경우가 있어서
+
+// 메시지 보내는 함수
 function sendMessage() {
+  if (isSending) return; // 메시지 전송 중이면 함수 종료
+
   var messageInput = document.getElementById("message-input");
   var message = messageInput.value.trim();
-  var roomId = getCurrentRoomId();
+  var roomId = getCurrentRoomId(); //현재 선택된 룸 아이디를 가져온다
 
   if (message !== "") {
-    $.ajax({
-      url: "/sendMessage",
-      type: "POST",
-      contentType: "application/json",
-      data: JSON.stringify({ roomId: roomId, message: message }),
-      success: function (response) {
-        addMessageToView(response);
-        messageInput.value = "";
-      },
-      error: function (request, status, error) {
-        console.error("Error sending message:", status, error);
-      },
-    });
+    isSending = true; // 메시지 전송 중으로 설정
+    ajaxRequest("/sendMessage", "POST", { roomId: roomId, message: message }) //룸 아이디와 메세지를 서버로 전송 해서 저장
+      .then((response) => {
+        addMessageToView(response); //메세지 추가
+        messageInput.value = ""; //인풋 태그 초기화
+      })
+      .catch((error) => console.error("Error sending message:", error))
+      .finally(() => (isSending = false)); // 메시지 전송 완료 후 해제
   }
 }
 
@@ -34,47 +32,40 @@ document.addEventListener("keypress", function (event) {
 });
 
 function loadChatRoom() {
-  $.ajax({
-    url: "/getChatInfo",
-    type: "GET",
-    dataType: "json",
-    success: function (response) {
+  ajaxRequest("/getChatInfo", "GET")
+    .then((response) => {
       const chatRoom = $(".chatRoom");
       chatRoom.empty();
       $("#chat-count").text("개설된 채팅방 " + response.chatRooms.length);
-      response.chatRooms.forEach(function (room) {
+      response.chatRooms.forEach((room) => {
         const roomHTML = `
         <div class="room" onclick="selectRoom('${room._id}')">
           <div class="roomName"><p>${room.roomName}</p></div>
         </div>`;
         chatRoom.append(roomHTML);
       });
-    },
-    error: function (request, status, error) {
-      console.error("Error loading chat rooms:", status, error);
-    },
-  });
+    })
+    .catch((error) => console.error("Error loading chat rooms:", error));
 }
 
 function loadMessages() {
   var roomId = getCurrentRoomId();
   if (roomId) {
-    $.ajax({
-      url: `/chatRoom/${roomId}/messages`,
-      type: "GET",
-      dataType: "json",
-      success: function (messages) {
+    ajaxRequest(`/chatRoom/${roomId}/messages`, "GET")
+      .then((messages) => {
         const chatView = $("#chat-view");
+        const wasAtBottom =
+          chatView.scrollTop() + chatView.innerHeight() >=
+          chatView[0].scrollHeight;
+
         chatView.empty(); // 메세지들 일단 다 없애고
-        messages.forEach(function (message) {
-          //받아온  메세지 출력
-          addMessageToView(message);
-        });
-      },
-      error: function (request, status, error) {
-        console.error("Error loading messages:", status, error);
-      },
-    });
+        messages.forEach((message) => addMessageToView(message));
+
+        if (wasAtBottom) {
+          chatView.scrollTop(chatView[0].scrollHeight);
+        }
+      })
+      .catch((error) => console.error("Error loading messages:", error));
   }
 }
 
@@ -83,16 +74,10 @@ async function addMessageToView(message) {
   var messageElement = document.createElement("div");
 
   const currentUser = await getCurrentUserId();
-  console.log(message.senderId);
-  console.log(currentUser);
   if (message.senderId === currentUser) {
-    //현재 로그인한 유저와 보낸 유저가 같으면 , 즉 자기가 보낸 메세지이면
     messageElement.classList.add("message", "sent");
-    //내가 보낸걸로 추가
   } else {
-    //아니면, 즉 다른 사람이 보낸 메세지이면
     messageElement.classList.add("message", "received");
-    //내가 받은 메세지로 추가
     var senderName = document.createElement("div");
     senderName.classList.add("sender-name");
     senderName.textContent = message.senderName; // 메시지 보낸 사람의 이름
@@ -109,26 +94,55 @@ async function addMessageToView(message) {
   messageElement.appendChild(messageTime);
 
   chatView.appendChild(messageElement);
+
+  // 항상 아래로 스크롤
   chatView.scrollTop = chatView.scrollHeight;
 }
 
 function selectRoom(roomId) {
+  ajaxRequest("/getRoomName", "GET", { roomId: roomId })
+    .then((response) => {
+      const roomName = $("#roomName"); // id를 사용하여 특정 요소 지정
+      roomName.empty();
+      var nameHTML = `<p>${response.roomName}</p>`;
+      roomName.append(nameHTML);
+      loadMessages(roomId);
+    })
+    .catch((error) => console.error("Error loading chat rooms:", error));
   localStorage.setItem("currentRoomId", roomId); //currentRoomID에 roomId가 담긴다
-  loadMessages(); //그리고 메세지 로드
 }
 
 function getCurrentRoomId() {
   return localStorage.getItem("currentRoomId");
 }
+
 async function getCurrentUserId() {
   try {
-    const response = await $.ajax({
-      url: "/getUserId",
-      type: "GET",
-      dataType: "json",
-    });
+    const response = await ajaxRequest("/getUserId", "GET");
     return response.userId;
   } catch (error) {
     console.error("통신에러 ", error.status, error);
   }
+}
+
+async function ajaxRequest(url, type, data = {}) {
+  try {
+    const response = await $.ajax({
+      url: url,
+      type: type,
+      contentType: "application/json",
+      data: type === "GET" ? data : JSON.stringify(data),
+      dataType: "json",
+    });
+    return response;
+  } catch (error) {
+    throw { status: error.status, error: error.error };
+  }
+}
+
+function AutoRefresh() {
+  setInterval(() => {
+    loadChatRoom();
+    loadMessages();
+  }, 3000); // 5초마다 실행
 }

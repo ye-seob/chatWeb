@@ -1,8 +1,8 @@
 * {
   padding: 0;
   margin: 0;
-  background-color: white; /* 연회색 */
-  color: #495057; /* 짙은 회색 */
+  background-color: white;
+  color: #495057;
 }
 body {
   display: flex;
@@ -13,8 +13,8 @@ h2 {
 
 .form-container {
   height: 100vh;
-  width: 400px;
-  border-right: 1px solid #ced4da; /* 연한 회색 */
+  width: 600px;
+  border-right: 1px solid #ced4da;
   text-align: center;
 }
 
@@ -33,7 +33,7 @@ input {
   width: 350px;
   border-radius: 15px;
   border: none;
-  background-color: #e9ecef; /* 짙은 회색 */
+  background-color: #e9ecef;
   color: black;
 }
 
@@ -42,6 +42,18 @@ button {
   height: 55px;
   border-radius: 15px;
   border: none;
-  background-color: #e9ecef; /* 짙은 회색 */
-  color: rgb(84, 84, 84); /* 연회색 */
+  background-color: #e9ecef;
+  color: rgb(84, 84, 84);
+}
+.BL-Logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.BL-Logo img {
+  width: 500px;
+  height: 500px;
+  object-fit: contain;
 }

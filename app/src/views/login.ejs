@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/css/style.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title>Document</title>
   </head>
   <body>
@@ -17,7 +18,7 @@
         />
       </a>
       <h2>로그인</h2>
-      <form action="/login" method="post">
+      <form id="login-form">
         <div class="form-group">
           <input
             type="text"
@@ -41,5 +42,29 @@
       </form>
       <p>아이디가 없으신가요? <a href="/signup">회원가입</a></p>
     </div>
+    <div class="BL-Logo">
+      <img src="/css/회색로고.jpg" />
+    </div>
+    <script>
+      $(document).ready(function () {
+        $("#login-form").on("submit", function (event) {
+          event.preventDefault();
+
+          var formData = $(this).serialize();
+
+          $.ajax({
+            url: "/login",
+            type: "POST",
+            data: formData,
+            success: function (response) {
+              window.location.href = response.redirect; //home으로 이동
+            },
+            error: function () {
+              alert("아이디 또는 비밀번호가 틀립니다");
+            },
+          });
+        });
+      });
+    </script>
   </body>
 </html>

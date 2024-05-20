@@ -4,6 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/css/style.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <title>Document</title>
   </head>
   <body>
@@ -17,7 +19,7 @@
         />
       </a>
       <h2>회원가입</h2>
-      <form action="/signup" method="post">
+      <form id="signup-form">
         <div class="form-group">
           <input
             type="text"
@@ -50,5 +52,29 @@
         <button type="submit" class="submit-btn">회원가입</button>
       </form>
     </div>
+    <div class="BL-Logo">
+      <img src="/css/회색로고.jpg" />
+    </div>
+    <script>
+      $(document).ready(function () {
+        $("#signup-form").on("submit", function (event) {
+          event.preventDefault();
+
+          var formData = $(this).serialize();
+          $.ajax({
+            url: "/signup",
+            type: "POST",
+            data: formData,
+            success: function (response) {
+              alert("회원가입 성공");
+              window.location.href = response.redirect;
+            },
+            error: function () {
+              alert("아이디는 3글자 이상이고 20글자 미만이어야 합니다.");
+            },
+          });
+        });
+      });
+    </script>
   </body>
 </html>

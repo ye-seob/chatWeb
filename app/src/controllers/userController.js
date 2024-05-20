@@ -34,7 +34,6 @@ async function signup(req, res) {
   try {
     //req.body에는 학번,이름,비밀번호가 담겨온다
     const { student_id, username, password } = extractUserData(req.body);
-
     validateData(student_id, password);
 
     //콜렉션에 입력된 학번을 검색한다
@@ -54,7 +53,7 @@ async function signup(req, res) {
       password: hashedPassword,
       friends: [],
     });
-    res.redirect("/");
+    res.json({ redirect: "/" });
   } catch (error) {
     handleServerError(res, "회원가입 중 오류가 발생했습니다.", error);
   }
@@ -79,7 +78,7 @@ async function login(req, res) {
       req.session.student_id = student_id;
       req.session.username = user.name;
       req.session.friendList = user.friendList;
-      res.redirect("/home");
+      res.json({ redirect: "/home" });
     } else {
       res.status(401).send("비밀번호가 일치하지 않습니다.");
     }
@@ -99,14 +98,14 @@ function getUserInfo(req, res) {
   const student_id = req.session.student_id; // 세션에서 사용자 ID 가져오기
 
   if (!student_id) {
-    return res.status(401).json({ error: "Unauthorized" }); // 세션에 student_id가 없을 경우
+    return res.status(401).json({ error: "세션이 만료 됐습니다" }); // 세션에 student_id가 없을 경우
   }
 
   collection
     .findOne({ student_id: student_id })
     .then((user) => {
       if (!user) {
-        return res.status(404).json({ error: "User not found" });
+        return res.status(404).json({ error: "등록되지 않은 유저입니다" });
       }
       res.json({
         username: user.name,
@@ -114,7 +113,7 @@ function getUserInfo(req, res) {
       });
     })
     .catch((err) => {
-      return res.status(500).json({ error: "Internal server error" });
+      return res.status(500).json({ error: "서버 통신 에러 발생" });
     });
 }
 

@@ -19,7 +19,7 @@ async function addFriend(req, res) {
 
     const user = await User.findOne({ student_id: userId });
     if (userId == friendStudentId) {
-      return res.status(404).send("본인 입력하지마라");
+      return res.status(404).send("자신은 추가할 수 없습니다");
     }
 
     if (user.friendList.find((f) => f.friendId === friend.student_id)) {
