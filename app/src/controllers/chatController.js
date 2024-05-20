@@ -102,6 +102,7 @@ const sendMessage = async (req, res) => {
     }
     const newMessage = new Message({
       senderId: user._id,
+      senderName: user.name,
       text: message,
       timestamp: new Date(),
     });

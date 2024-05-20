@@ -2,9 +2,9 @@ $(document).ready(function () {
   loadFriends();
 });
 
-var addModal = document.getElementById("myModal");
-var deleteModal = document.getElementById("myDeleteModal");
-var friendIdInput = document.getElementById("friendIdInput");
+var addModal = $("#myModal")[0]; // jQuery 객체를 DOM 객체로 변환
+var deleteModal = $("#myDeleteModal")[0];
+var friendIdInput = $("#friendIdInput")[0];
 
 function openModal() {
   addModal.style.display = "block";
@@ -18,6 +18,7 @@ function openModal() {
 function closeModal() {
   addModal.style.display = "none";
 }
+
 function openDeleteModal(friendId) {
   deleteModal.style.display = "block";
   friendIdInput.value = friendId;
