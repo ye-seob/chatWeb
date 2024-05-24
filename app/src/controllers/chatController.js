@@ -150,6 +150,25 @@ async function getRoomName(req, res) {
   }
 }
 
+async function deleteChatRoom(req, res) {
+  const { roomId } = req.params;
+  const userId = req.session.student_id;
+  try {
+    const chatRoom = await ChatRoom.findById(roomId);
+    if (!chatRoom) {
+      return res.status(404).json({ error: "채팅 방을 찾을 수 없습니다" });
+    }
+
+    await Message.deleteMany({ _id: { $in: chatRoom.messages } });
+    await ChatRoom.findByIdAndDelete(roomId);
+    res
+      .status(200)
+      .json({ message: "채팅방과 해당 메시지들이 삭제되었습니다" });
+  } catch (error) {
+    res.status(500).json({ error: "서버 통신 에러 발생" });
+  }
+}
+
 module.exports = {
   createChatRoom,
   getChatRoom,
@@ -158,4 +177,5 @@ module.exports = {
   getMessages,
   getUserId,
   getRoomName,
+  deleteChatRoom,
 };

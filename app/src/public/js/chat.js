@@ -41,6 +41,7 @@ function loadChatRoom() {
         const roomHTML = `
         <div class="room" onclick="selectRoom('${room._id}')">
           <div class="roomName"><p>${room.roomName}</p></div>
+          <button class="delete-btn" onclick="openDeleteChatRoomModal()">&minus;</button>
         </div>`;
         chatRoom.append(roomHTML);
       });
@@ -122,6 +123,29 @@ async function getCurrentUserId() {
     return response.userId;
   } catch (error) {
     console.error("통신에러 ", error.status, error);
+  }
+}
+let isDeleting = false;
+
+function deleteChatRoom() {
+  if (isDeleting) return;
+
+  var roomId = getCurrentRoomId();
+  if (roomId) {
+    isDeleting = true;
+    ajaxRequest(`/deleteChatRoom/${roomId}`, "DELETE")
+      .then((response) => {
+        alert("채팅방이 삭제되었습니다.");
+        closeDeleteChatRoomModal();
+        loadChatRoom();
+      })
+      .catch((error) => {
+        console.error("채팅방 삭제 실패:", error);
+        alert("채팅방 삭제에 실패했습니다.");
+      })
+      .finally(() => {
+        isDeleting = false;
+      });
   }
 }
 

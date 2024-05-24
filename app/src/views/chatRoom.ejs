@@ -6,6 +6,7 @@
     <title>Chat</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="/css/chat.css" />
+    <link rel="stylesheet" href="/css/deleteModal.css" />
   </head>
   <body>
     <div class="container">
@@ -35,7 +36,19 @@
         </div>
       </div>
     </div>
+
+    <div id="deleteChatRoomModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeDeleteChatRoomModal()">&times;</span>
+        <h2>채팅방 삭제</h2>
+
+        <button class="btn" type="submit" onclick="deleteChatRoom()">
+          확인
+        </button>
+      </div>
+    </div>
     <script src="/js/home.js"></script>
     <script src="/js/chat.js"></script>
+    <script src="/js/modal.js"></script>
   </body>
 </html>
