@@ -3,6 +3,7 @@ const router = express.Router();
 const chatController = require("../controllers/chatController");
 
 router.post("/createChatRoom", chatController.createChatRoom);
+router.post("/createGroupChatRoom", chatController.createGroupChatRoom);
 router.get("/createChatRoom", chatController.getChatRoom);
 router.get("/getChatInfo", chatController.getChatInfo);
 router.post("/sendMessage", chatController.sendMessage);

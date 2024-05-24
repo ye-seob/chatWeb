@@ -29,13 +29,6 @@ function loadFriends() {
     },
   });
 }
-document
-  .getElementById("friend_id")
-  .addEventListener("keypress", function (event) {
-    if (event.key === "Enter") {
-      addFriend();
-    }
-  });
 
 function addFriend() {
   var friendId = $("#friend_id").val().trim();

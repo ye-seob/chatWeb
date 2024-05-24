@@ -1,13 +1,17 @@
-.chat-count {
+#chat-count {
   height: 40px;
+
   font-size: 16px;
   border: 1px solid #888888;
+
   border-right: none;
   border-left: none;
   text-align: left;
+
   display: flex;
   justify-content: space-between;
   align-items: center;
+
   padding: 0 10px;
   font-size: 15px;
   font-weight: 600;
@@ -17,18 +21,6 @@
   width: 100%;
   height: 400px;
   overflow-y: auto;
-}
-
-.chat {
-  height: 70px;
-  border-bottom: 1px solid #888888;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.chat:hover {
-  background-color: #f0f0f0;
 }
 
 .chat-wrap {
@@ -162,4 +154,12 @@
 #roomName {
   font-size: 16px;
   font-weight: 600;
+}
+#friendsListContainer {
+  max-height: 400px; /* 원하는 높이로 설정 */
+  overflow-y: auto; /* 스크롤 가능하도록 설정 */
+}
+
+.friend-checkbox {
+  margin-right: 10px;
 }

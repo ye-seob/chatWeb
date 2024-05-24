@@ -37,6 +37,69 @@ async function createChatRoom(req, res) {
     res.status(500).json({ error: "서버 통신 에러 발생" });
   }
 }
+const createGroupChatRoom = async (req, res) => {
+  const { friendIds } = req.body; // 여러 친구 ID를 받아옵니다
+  const userId = req.session.student_id;
+
+  if (!userId) {
+    return res.status(401).json({ error: "세션이 만료 됐습니다" });
+  }
+
+  if (!Array.isArray(friendIds) || friendIds.length < 2) {
+    return res
+      .status(400)
+      .json({ error: "단체 채팅방은 최소 2명 이상의 친구 필요" });
+  }
+
+  try {
+    const user = await User.findOne({ student_id: userId });
+    if (!user) {
+      return res.status(404).json({ error: "등록되지 않은 유저입니다" });
+    }
+
+    const friends = await User.find({ student_id: { $in: friendIds } });
+    if (friends.length !== friendIds.length) {
+      return res.status(404).json({ error: "일부 친구를 찾을 수 없습니다" });
+    }
+
+    const allParticipants = [user, ...friends];
+    const participantIds = allParticipants.map(
+      (participant) => participant._id
+    );
+
+    const existingChatRoom = await ChatRoom.findOne({
+      participants: { $all: participantIds },
+    });
+
+    if (existingChatRoom) {
+      return res.status(200).json({ message: "채팅 방이 이미 존재합니다" });
+    }
+
+    let roomName;
+    if (friends.length <= 2) {
+      const friendNames = friends.map((friend) => friend.name).join(", ");
+      roomName = `${user.name}, ${friendNames}`;
+    } else {
+      const friendNames = friends
+        .slice(0, 2)
+        .map((friend) => friend.name)
+        .join(", ");
+      const otherFriendsCount = friends.length - 2;
+      roomName = `${user.name}, ${friendNames} 외 ${otherFriendsCount}명`;
+    }
+
+    const chatRoom = new ChatRoom({
+      roomName: roomName,
+      participants: participantIds,
+      messages: [],
+    });
+
+    await chatRoom.save();
+    res.status(201).json(chatRoom);
+  } catch (error) {
+    res.status(500).json({ error: "서버 통신 에러 발생" });
+  }
+};
 
 const getChatRoom = async (req, res) => {
   const { roomId } = req.params;
@@ -171,6 +234,7 @@ async function deleteChatRoom(req, res) {
 
 module.exports = {
   createChatRoom,
+  createGroupChatRoom,
   getChatRoom,
   getChatInfo,
   sendMessage,

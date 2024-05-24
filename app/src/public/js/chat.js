@@ -36,7 +36,13 @@ function loadChatRoom() {
     .then((response) => {
       const chatRoom = $(".chatRoom");
       chatRoom.empty();
-      $("#chat-count").text("개설된 채팅방 " + response.chatRooms.length);
+      $("#chat-count").html(
+        `<span class="room-span">개설된 채팅방 ${response.chatRooms.length} 개</span>
+   <button  class="plus-btn" onclick="openMakeGroupChatModal()">
+     &plus;
+   </button>`
+      );
+
       response.chatRooms.forEach((room) => {
         const roomHTML = `
         <div class="room" onclick="selectRoom('${room._id}')">
