@@ -127,16 +127,15 @@ function createGroupChatRoom() {
   }
 
   $.ajax({
-    url: "/createGroupChatRoom",
+    url: "/createChatRoom",
     type: "POST",
     contentType: "application/json",
     data: JSON.stringify({ friendIds: selectedFriendIds }),
     success: function (response) {
       alert("그룹 채팅방이 생성되었습니다!");
-      // 필요한 경우, 생성된 채팅방으로 리다이렉트 등 추가 작업
     },
     error: function (request, status, error) {
-      console.error("Error creating group chat room:", status, error);
+      alert("그룹 채팅방 생성 실패");
     },
   });
 }
