@@ -125,14 +125,14 @@ function createGroupChatRoom() {
     alert("그룹 채팅방을 생성하려면 최소 2명의 친구를 선택해야 합니다.");
     return;
   }
-
   $.ajax({
     url: "/createChatRoom",
     type: "POST",
     contentType: "application/json",
-    data: JSON.stringify({ friendIds: selectedFriendIds }),
+    data: JSON.stringify({ friendIds: selectedFriendIds, friendName }),
     success: function (response) {
       alert("그룹 채팅방이 생성되었습니다!");
+      closeMakeGroupChatModal();
     },
     error: function (request, status, error) {
       alert("그룹 채팅방 생성 실패");

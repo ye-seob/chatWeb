@@ -12,8 +12,9 @@ function loadFriends() {
       friendsList.empty();
       $("#username").text(response.username + "님");
       $("#friend-count").text("친구 " + response.friendList.length);
+      var friendsHTML = "";
       response.friendList.forEach(function (friend) {
-        var friendHTML = `
+        friendsHTML += `
         <div class="friend" data-friend-id="${friend.friendId}">
             <div class="friend-profile">
                 <div class="friend-img"></div>
@@ -21,8 +22,8 @@ function loadFriends() {
             </div>
             <button class="delete-btn" onclick="openDeleteModal('${friend.friendId}')">&minus;</button>
           </div>`;
-        friendsList.append(friendHTML);
       });
+      friendsList.append(friendsHTML);
     },
     error: function (request, status, error) {
       console.error("Error loading friends:", status, error);
@@ -83,7 +84,8 @@ function createChatRoom(friendId, friendName) {
   $.ajax({
     url: "/createChatRoom",
     type: "POST",
-    data: { friendId: friendId, friendName: friendName },
+    contentType: "application/json",
+    data: JSON.stringify({ friendIds: friendId, friendName: friendName }),
     success: function (response) {
       MovePage("chat");
     },
@@ -92,17 +94,16 @@ function createChatRoom(friendId, friendName) {
     },
   });
 }
+
 var isChatRoomCreating = false;
 
 $(document).on("dblclick", ".friend", function () {
   if (isChatRoomCreating) return; // 채팅방 생성 중이면 중복 생성 방지
-
   isChatRoomCreating = true; // 플래그 설정
+
   const friendId = $(this).data("friend-id");
   const friendName = $(this).find(".friendName p").text();
-
-  createChatRoom(friendId, friendName);
-
+  createChatRoom([friendId], friendName);
   setTimeout(() => {
     isChatRoomCreating = false; // 일정 시간 후 플래그 해제
   }, 1000); // 1초 후 플래그 해제

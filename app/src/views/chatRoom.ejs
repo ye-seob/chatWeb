@@ -7,6 +7,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="/css/chat.css" />
     <link rel="stylesheet" href="/css/deleteModal.css" />
+    <link rel="stylesheet" href="/css/dark-mode.css" />
   </head>
   <body>
     <div class="container">
@@ -52,9 +53,7 @@
       <div class="modal-content">
         <span class="close" onclick="closeMakeGroupChatModal()">&times;</span>
         <h2>단체 채팅방</h2>
-        <div id="friendsListContainer">
-          <!-- 이 부분에 친구 리스트가 표시됩니다. -->
-        </div>
+        <div id="friendsListContainer"></div>
         <button class="btn" type="submit" onclick="createGroupChatRoom()">
           확인
         </button>
@@ -64,5 +63,6 @@
     <script src="/js/home.js"></script>
     <script src="/js/chat.js"></script>
     <script src="/js/modal.js"></script>
+    <script src="/js/dark-mode.js"></script>
   </body>
 </html>

@@ -3,19 +3,12 @@ const User = require("../models/userModels");
 const Message = require("../models/chatModels");
 
 const createChatRoom = async (req, res) => {
-  const { friendId, friendName, friendIds } = req.body;
+  const { friendIds, friendName } = req.body; // friendIds 배열을 받도록 수정
   const userId = req.session.student_id;
 
   if (!userId) {
     return res.status(401).json({ error: "세션이 만료 됐습니다" });
   }
-
-  if (friendIds && (!Array.isArray(friendIds) || friendIds.length < 2)) {
-    return res
-      .status(400)
-      .json({ error: "단체 채팅방은 최소 2명 이상의 친구 필요" });
-  }
-
   try {
     const user = await User.findOne({ student_id: userId });
 
@@ -25,17 +18,13 @@ const createChatRoom = async (req, res) => {
 
     let friends = [];
 
-    if (friendIds) {
-      friends = await User.find({ student_id: { $in: friendIds } });
-      if (friends.length !== friendIds.length) {
-        return res.status(404).json({ error: "일부 친구를 찾을 수 없습니다" });
-      }
-    } else {
+    for (const friendId of friendIds) {
       const friend = await User.findOne({ student_id: friendId });
       if (!friend) {
         return res.status(404).json({ error: "등록되지 않은 유저입니다" });
       }
-      friends = [friend];
+
+      friends.push(friend);
     }
 
     const allParticipants = [user, ...friends];
@@ -45,13 +34,14 @@ const createChatRoom = async (req, res) => {
 
     const existingChatRoom = await ChatRoom.findOne({
       participants: { $all: participantIds },
+      $expr: { $eq: [{ $size: "$participants" }, participantIds.length] },
     });
-
     if (existingChatRoom) {
       return res.status(400).json({ message: "채팅 방이 이미 존재합니다" });
     }
 
     let roomName;
+
     if (friends.length === 1) {
       roomName = `${user.name}와(과) ${friendName}의 채팅방`;
     } else if (friends.length <= 2) {
@@ -65,7 +55,6 @@ const createChatRoom = async (req, res) => {
       const otherFriendsCount = friends.length - 2;
       roomName = `${user.name}, ${friendNames} 외 ${otherFriendsCount}명`;
     }
-
     const chatRoom = new ChatRoom({
       roomName: roomName,
       participants: participantIds,

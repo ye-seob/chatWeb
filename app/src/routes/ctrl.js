@@ -20,10 +20,14 @@ const profile = (req, res) => {
   res.render("profile");
 };
 
+const setting = (req, res) => {
+  res.render("setting");
+};
 module.exports = {
   login,
   signup,
   home,
   chat,
   profile,
+  setting,
 };
