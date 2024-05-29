@@ -32,7 +32,7 @@ document.addEventListener("keypress", function (event) {
 });
 
 function loadChatRoom() {
-  ajaxRequest("/getChatInfo", "GET")
+  ajaxRequest("/loadChatRoom", "GET")
     .then((response) => {
       const chatRoom = $(".chatRoom");
       chatRoom.empty();
@@ -58,7 +58,7 @@ function loadChatRoom() {
 function loadMessages() {
   var roomId = getCurrentRoomId();
   if (roomId) {
-    ajaxRequest(`/chatRoom/${roomId}/messages`, "GET")
+    ajaxRequest(`/load/${roomId}/messages`, "GET")
       .then((messages) => {
         const chatView = $("#chat-view");
         const wasAtBottom =

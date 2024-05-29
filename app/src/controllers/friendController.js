@@ -1,23 +1,25 @@
 const User = require("../models/userModels");
 
 async function addFriend(req, res) {
-  try {
-    if (!req.session) {
-      return res.status(401).send("로그인이 필요합니다.");
-    }
-    const userId = req.session.student_id;
-    const friendStudentId = req.body.friend_id;
+  const userId = req.session.student_id;
+  const friendStudentId = req.body.friend_id;
 
+  try {
     if (!userId || !friendStudentId) {
-      return res.status(400).send("필요한 정보가 누락되었습니다.");
+      return res.status(401).send("세션이 만료 됐습니다");
+    }
+
+    if (!friendStudentId) {
+      return res.status(400).send("친구의 학번을 입력해주세요");
     }
 
     const friend = await User.findOne({ student_id: friendStudentId });
+    const user = await User.findOne({ student_id: userId });
+
     if (!friend) {
       return res.status(404).send("친구를 찾을 수 없습니다.");
     }
 
-    const user = await User.findOne({ student_id: userId });
     if (userId == friendStudentId) {
       return res.status(404).send("자신은 추가할 수 없습니다");
     }
@@ -42,15 +44,12 @@ async function addFriend(req, res) {
 }
 
 async function deleteFriend(req, res) {
-  try {
-    if (!req.session) {
-      return res.status(401).send("로그인이 필요합니다.");
-    }
-    const userId = req.session.student_id;
-    const friendStudentId = req.body.friend_id;
+  const userId = req.session.student_id;
+  const friendStudentId = req.body.friend_id;
 
-    if (!userId || !friendStudentId) {
-      return res.status(400).send("필요한 정보가 누락되었습니다.");
+  try {
+    if (!userId) {
+      return res.status(401).send("세션이 만료 됐습니다");
     }
 
     const user = await User.findOne({ student_id: userId });
@@ -60,13 +59,11 @@ async function deleteFriend(req, res) {
       return res.status(404).send("친구를 찾을 수 없습니다.");
     }
 
-    // 사용자의 친구 목록에서 해당 친구 삭제
     user.friendList = user.friendList.filter(
       (f) => f.friendId !== friendStudentId
     );
     await user.save();
 
-    // 친구의 친구 목록에서 사용자 삭제
     friend.friendList = friend.friendList.filter((f) => f.friendId !== userId);
     await friend.save();
 

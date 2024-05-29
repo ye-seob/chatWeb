@@ -6,14 +6,28 @@
   background-color: #1e1e1e;
 }
 .dark-mode .BL-Logo img {
-  filter: invert(1);
+  filter: invert(0.883);
 }
 
-label {
+.setting {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  cursor: pointer;
+
+  height: 70px;
+  border: 1px solid #888888;
+  border-width: 1px 0 1px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.setting p {
+  width: 80px;
+  height: 30px;
+  font-size: 16px;
+  font-weight: 600;
+  margin-left: 10px;
 }
 
 [type="checkbox"] {
@@ -23,6 +37,7 @@ label {
   border-radius: 1.25em;
   width: 2.25em;
   height: 1.25em;
+  margin-right: 20px;
 }
 
 [type="checkbox"]::before {

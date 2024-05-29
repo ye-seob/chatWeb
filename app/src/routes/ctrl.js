@@ -23,6 +23,7 @@ const profile = (req, res) => {
 const setting = (req, res) => {
   res.render("setting");
 };
+
 module.exports = {
   login,
   signup,

@@ -1,13 +1,15 @@
 const express = require("express");
 const router = express.Router();
 const chatController = require("../controllers/chatController");
+const roomController = require("../controllers/roomController");
 
-router.post("/createChatRoom", chatController.createChatRoom);
-router.get("/getChatInfo", chatController.getChatInfo);
+//roomController
+router.post("/createChatRoom", roomController.createChatRoom);
+router.delete("/deleteChatRoom/:roomId", roomController.deleteChatRoom);
+router.get("/loadChatRoom", roomController.loadChatRoom);
+
+//chatController
 router.post("/sendMessage", chatController.sendMessage);
-router.get("/chatRoom/:roomId/messages", chatController.getMessages);
-router.get("/getUserId", chatController.getUserId);
-router.get("/getRoomName", chatController.getRoomName);
-router.delete("/deleteChatRoom/:roomId", chatController.deleteChatRoom);
+router.get("/load/:roomId/messages", chatController.laodMessages);
 
 module.exports = router;

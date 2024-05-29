@@ -156,8 +156,8 @@
   font-weight: 600;
 }
 #friendsListContainer {
-  max-height: 400px; /* 원하는 높이로 설정 */
-  overflow-y: auto; /* 스크롤 가능하도록 설정 */
+  max-height: 400px;
+  overflow-y: auto;
 }
 
 .friend-checkbox {

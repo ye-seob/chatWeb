@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
       },
-      _id: false, //  _id 생성 방지
+      _id: false,
     },
   ],
 });

@@ -129,7 +129,7 @@ function createGroupChatRoom() {
     url: "/createChatRoom",
     type: "POST",
     contentType: "application/json",
-    data: JSON.stringify({ friendIds: selectedFriendIds, friendName }),
+    data: JSON.stringify({ friendIds: selectedFriendIds }),
     success: function (response) {
       alert("그룹 채팅방이 생성되었습니다!");
       closeMakeGroupChatModal();
