@@ -96,7 +96,7 @@ function createChatRoom(friendId, friendName) {
 }
 
 var isChatRoomCreating = false;
-
+//더블클릭으로 1대1 채팅방 구현
 $(document).on("dblclick", ".friend", function () {
   if (isChatRoomCreating) return; // 채팅방 생성 중이면 중복 생성 방지
   isChatRoomCreating = true; // 플래그 설정

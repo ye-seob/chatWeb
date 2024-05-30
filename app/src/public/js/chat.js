@@ -3,6 +3,13 @@ $(document).ready(function () {
   AutoRefresh();
 });
 
+function AutoRefresh() {
+  setInterval(() => {
+    loadChatRoom();
+    loadMessages();
+  }, 3000); // 5초마다 실행
+}
+
 let isSending = false; //중복으로 보내지는 경우가 있어서
 
 // 메시지 보내는 함수
@@ -24,12 +31,6 @@ function sendMessage() {
       .finally(() => (isSending = false)); // 메시지 전송 완료 후 해제
   }
 }
-
-document.addEventListener("keypress", function (event) {
-  if (event.key === "Enter") {
-    sendMessage();
-  }
-});
 
 function loadChatRoom() {
   ajaxRequest("/loadChatRoom", "GET")
@@ -168,11 +169,4 @@ async function ajaxRequest(url, type, data = {}) {
   } catch (error) {
     throw { status: error.status, error: error.error };
   }
-}
-
-function AutoRefresh() {
-  setInterval(() => {
-    loadChatRoom();
-    loadMessages();
-  }, 3000); // 5초마다 실행
 }
