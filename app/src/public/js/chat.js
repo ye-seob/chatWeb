@@ -55,7 +55,6 @@ function loadChatRoom() {
     })
     .catch((error) => console.error("Error loading chat rooms:", error));
 }
-
 function loadMessages() {
   var roomId = getCurrentRoomId();
   if (roomId) {
@@ -92,9 +91,18 @@ async function addMessageToView(message) {
     messageElement.appendChild(senderName);
   }
 
-  var messageText = document.createElement("div");
-  messageText.textContent = message.text;
-  messageElement.appendChild(messageText);
+  if (message.text) {
+    var messageText = document.createElement("div");
+    messageText.textContent = message.text;
+    messageElement.appendChild(messageText);
+  }
+
+  if (message.imgFile) {
+    var messageImage = document.createElement("img");
+    messageImage.src = message.imgFile;
+    messageImage.alt = "Image";
+    messageElement.appendChild(messageImage);
+  }
 
   var messageTime = document.createElement("div");
   messageTime.classList.add("message-time");
@@ -170,3 +178,37 @@ async function ajaxRequest(url, type, data = {}) {
     throw { status: error.status, error: error.error };
   }
 }
+$(document).ready(function () {
+  $(".send-img-btn").on("click", function () {
+    $("#imgFileInput").click();
+  });
+
+  $("#imgFileInput").on("change", function () {
+    var image = this.files[0];
+    if (image) {
+      sendImg(image);
+    }
+  });
+
+  function sendImg(image) {
+    const formData = new FormData();
+    const roomId = getCurrentRoomId();
+
+    formData.append("image", image);
+    formData.append("roomId", roomId);
+
+    $.ajax({
+      url: "/sendImg",
+      type: "POST",
+      data: formData,
+      contentType: false, // 중요: jQuery가 contentType을 설정하지 않도록 합니다.
+      processData: false, // 중요: jQuery가 data를 문자열로 처리하지 않도록 합니다.
+      success: function (response) {
+        console.log("성공");
+      },
+      error: function (xhr, status, error) {
+        console.log("에러 발생", error);
+      },
+    });
+  }
+});

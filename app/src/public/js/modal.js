@@ -124,7 +124,6 @@ $(document).ready(function () {
     closeModal(makeGroupChatModal);
   };
 
-  // 초기 친구 목록 로드 및 그룹 채팅방 생성 버튼 설정
-  loadFriend();
   $("#createGroupChatButton").click(createGroupChatRoom);
+  loadChatRoom();
 });

@@ -12,8 +12,13 @@ const messageSchema = new mongoose.Schema({
   },
   text: {
     type: String,
-    required: true,
+    default: "",
   },
+  imgFile: {
+    type: String,
+    default: "",
+  },
+
   timestamp: {
     type: Date,
     default: Date.now,

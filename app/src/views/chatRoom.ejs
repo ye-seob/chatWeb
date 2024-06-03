@@ -27,6 +27,13 @@
         <div class="chat-view" id="chat-view"></div>
         <div class="chat-send-box">
           <input
+            type="file"
+            id="imgFileInput"
+            name="image"
+            style="display: none"
+          />
+          <button class="send-img-btn">+</button>
+          <input
             class="send"
             type="text"
             id="message-input"
@@ -54,11 +61,7 @@
         <span class="close" onclick="closeMakeGroupChatModal()">&times;</span>
         <h2>단체 채팅방</h2>
         <div id="friendsListContainer"></div>
-        <button
-          class="submit-btn"
-          type="submit"
-          onclick="createGroupChatRoom()"
-        >
+        <button class="submit-btn" type="submit" id="createGroupChatButton">
           확인
         </button>
       </div>
