@@ -12,7 +12,7 @@ function getUserInfo(req, res) {
     .findOne({ student_id: userId })
     .then((user) => {
       if (!user) {
-        return res.status(404).json({ error: "등록되지 않은 유저입니다" });
+        return res.status(404).json({ error: "등록되지 않은 유저" });
       }
       res.json({
         username: user.name,
@@ -20,7 +20,7 @@ function getUserInfo(req, res) {
       });
     })
     .catch((err) => {
-      return res.status(500).json({ error: "서버 에러 발생" });
+      return res.status(500).json({ error: "서버 문제 발생" });
     });
 }
 

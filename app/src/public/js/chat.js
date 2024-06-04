@@ -10,15 +10,14 @@ function AutoRefresh() {
   }, 3000); // 5초마다 실행
 }
 
-let isSending = false; //중복으로 보내지는 경우가 있어서
+let isSending = false;
 
 // 메시지 보내는 함수
 function sendMessage() {
-  if (isSending) return; // 메시지 전송 중이면 함수 종료
-
+  if (isSending) return;
   var messageInput = document.getElementById("message-input");
   var message = messageInput.value.trim();
-  var roomId = getCurrentRoomId(); //현재 선택된 룸 아이디를 가져온다
+  var roomId = getCurrentRoomId();
 
   if (message !== "") {
     isSending = true; // 메시지 전송 중으로 설정
@@ -118,7 +117,7 @@ async function addMessageToView(message) {
 function selectRoom(roomId) {
   ajaxRequest("/getRoomName", "GET", { roomId: roomId })
     .then((response) => {
-      const roomName = $("#roomName"); // id를 사용하여 특정 요소 지정
+      const roomName = $("#roomName");
       roomName.empty();
       var nameHTML = `<p>${response.roomName}</p>`;
       roomName.append(nameHTML);
@@ -178,6 +177,7 @@ async function ajaxRequest(url, type, data = {}) {
     throw { status: error.status, error: error.error };
   }
 }
+
 $(document).ready(function () {
   $(".send-img-btn").on("click", function () {
     $("#imgFileInput").click();
@@ -188,27 +188,27 @@ $(document).ready(function () {
     if (image) {
       sendImg(image);
     }
+
+    function sendImg(image) {
+      const formData = new FormData();
+      const roomId = getCurrentRoomId();
+
+      formData.append("image", image);
+      formData.append("roomId", roomId);
+
+      $.ajax({
+        url: "/sendImg",
+        type: "POST",
+        data: formData,
+        contentType: false, // 중요: jQuery가 contentType을 설정하지 않도록 합니다.
+        processData: false, // 중요: jQuery가 data를 문자열로 처리하지 않도록 합니다.
+        success: function (response) {
+          console.log("성공");
+        },
+        error: function (xhr, status, error) {
+          console.log("에러 발생", error);
+        },
+      });
+    }
   });
-
-  function sendImg(image) {
-    const formData = new FormData();
-    const roomId = getCurrentRoomId();
-
-    formData.append("image", image);
-    formData.append("roomId", roomId);
-
-    $.ajax({
-      url: "/sendImg",
-      type: "POST",
-      data: formData,
-      contentType: false, // 중요: jQuery가 contentType을 설정하지 않도록 합니다.
-      processData: false, // 중요: jQuery가 data를 문자열로 처리하지 않도록 합니다.
-      success: function (response) {
-        console.log("성공");
-      },
-      error: function (xhr, status, error) {
-        console.log("에러 발생", error);
-      },
-    });
-  }
 });

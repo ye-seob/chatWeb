@@ -1,5 +1,3 @@
-// src/controllers/userController.js
-
 const collection = require("../models/userModels");
 const bcrypt = require("bcrypt");
 

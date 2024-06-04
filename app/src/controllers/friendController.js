@@ -5,19 +5,19 @@ async function addFriend(req, res) {
   const friendStudentId = req.body.friend_id;
 
   try {
-    if (!userId || !friendStudentId) {
+    if (!userId) {
       return res.status(401).send("세션이 만료 됐습니다");
     }
 
     if (!friendStudentId) {
-      return res.status(400).send("친구의 학번을 입력해주세요");
+      return res.status(400).send("친구의 학번 공백 오류");
     }
 
     const friend = await User.findOne({ student_id: friendStudentId });
     const user = await User.findOne({ student_id: userId });
 
     if (!friend) {
-      return res.status(404).send("친구를 찾을 수 없습니다.");
+      return res.status(404).send("친구를 찾을 수 없습니다");
     }
 
     if (userId == friendStudentId) {
@@ -25,7 +25,7 @@ async function addFriend(req, res) {
     }
 
     if (user.friendList.find((f) => f.friendId === friend.student_id)) {
-      return res.status(409).send("이미 친구입니다.");
+      return res.status(409).send("이미 친구입니다");
     }
 
     user.friendList.push({ friendId: friend.student_id, name: friend.name });
@@ -34,11 +34,8 @@ async function addFriend(req, res) {
     friend.friendList.push({ friendId: user.student_id, name: user.name });
     await friend.save();
 
-    res.send({
-      message: "친구가 추가되었습니다.",
-    });
+    res.send({ message: "친구가 추가되었습니다." });
   } catch (error) {
-    console.error(error);
     res.status(500).send("서버 오류");
   }
 }
@@ -67,12 +64,10 @@ async function deleteFriend(req, res) {
     friend.friendList = friend.friendList.filter((f) => f.friendId !== userId);
     await friend.save();
 
-    res.send({
-      message: "친구가 삭제되었습니다",
-    });
+    res.send({ message: "친구가 삭제되었습니다" });
   } catch (error) {
     console.error(error);
-    res.status(500).send("서버 오류");
+    res.status(500).send("서버 문제 발생");
   }
 }
 module.exports = {

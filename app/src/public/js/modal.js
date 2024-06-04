@@ -1,22 +1,18 @@
 $(document).ready(function () {
-  // 모달 요소들 초기화
   var addModal = $("#myModal");
   var deleteModal = $("#myDeleteModal");
   var friendIdInput = $("#friendIdInput");
   var deleteChatRoomModal = $("#deleteChatRoomModal");
   var makeGroupChatModal = $("#makeGroupChatModal");
 
-  // 모달 닫기 함수
   function closeModal(modal) {
     modal.hide();
   }
 
-  // 모달 열기 함수
   function openModal(modal) {
     modal.show();
   }
 
-  // 친구 목록 불러오기
   function loadFriend() {
     $.ajax({
       url: "/getUserInfo",
@@ -43,7 +39,6 @@ $(document).ready(function () {
     });
   }
 
-  // 그룹 채팅방 생성
   function createGroupChatRoom() {
     var selectedFriendIds = $(".friend-checkbox:checked")
       .map(function () {
@@ -71,7 +66,6 @@ $(document).ready(function () {
     });
   }
 
-  // 이벤트 리스너 설정
   $(window).click(function (event) {
     if (event.target === addModal[0]) closeModal(addModal);
     else if (event.target === deleteModal[0]) closeModal(deleteModal);
@@ -96,7 +90,6 @@ $(document).ready(function () {
     if (event.key === "Enter") addFriend();
   });
 
-  // 모달 열기/닫기 함수들
   window.openModal = function () {
     openModal(addModal);
   };

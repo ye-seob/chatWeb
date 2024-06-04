@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/css/style.css" />
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <title>Document</title>
   </head>
   <body>
@@ -57,7 +57,7 @@
             type: "POST",
             data: formData,
             success: function (response) {
-              window.location.href = response.redirect; //home으로 이동
+              window.location.href = response.redirect;
             },
             error: function () {
               alert("아이디 또는 비밀번호가 틀립니다");

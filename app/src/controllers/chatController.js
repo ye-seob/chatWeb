@@ -1,11 +1,10 @@
 const ChatRoom = require("../models/chatRoomModel");
 const User = require("../models/userModels");
 const Message = require("../models/chatModels");
-const multer = require("multer");
 const sharp = require("sharp");
 const path = require("path");
 
-const sendMessage = async (req, res) => {
+async function sendMessage(req, res) {
   const { roomId, message } = req.body;
   const userId = req.session.student_id;
 
@@ -15,13 +14,14 @@ const sendMessage = async (req, res) => {
 
   try {
     const chatRoom = await ChatRoom.findById(roomId);
+
     if (!chatRoom) {
-      return res.status(404).json({ error: "채팅 방을 찾을 수 없습니다" });
+      return res.status(404).json({ error: "채팅방 없음" });
     }
 
     const user = await User.findOne({ student_id: userId });
     if (!user) {
-      return res.status(404).json({ error: "등록되지 않은 유저입니다" });
+      return res.status(404).json({ error: "등록되지 않은 유저" });
     }
     const newMessage = new Message({
       senderId: user._id,
@@ -36,24 +36,25 @@ const sendMessage = async (req, res) => {
 
     res.status(201).json(newMessage);
   } catch (error) {
-    res.status(500).json({ error: "서버 통신 에러 발생" });
+    res.status(500).json({ error: "서버 문제 발생" });
   }
-};
+}
 
-const laodMessages = async (req, res) => {
+async function laodMessages(req, res) {
   const { roomId } = req.params;
 
   try {
     const chatRoom = await ChatRoom.findById(roomId).populate("messages");
+
     if (!chatRoom) {
-      return res.status(404).json({ error: "채팅 방을 찾을 수 없습니다" });
+      return res.status(404).json({ error: "채팅방 없음" });
     }
     res.json(chatRoom.messages);
   } catch (error) {
-    res.status(500).json({ error: "서버  에러 발생" });
+    res.status(500).json({ error: "서버 문제 발생" });
   }
-};
-const sendImg = async (req, res) => {
+}
+async function sendImg(req, res) {
   const roomId = req.body.roomId;
   const userId = req.session.student_id;
 
@@ -63,21 +64,23 @@ const sendImg = async (req, res) => {
   try {
     const chatRoom = await ChatRoom.findById(roomId);
     if (!chatRoom) {
-      return res.status(404).json({ error: "채팅 방을 찾을 수 없습니다" });
+      return res.status(404).json({ error: "채팅 방 없음" });
     }
 
     const user = await User.findOne({ student_id: userId });
+
     if (!user) {
-      return res.status(404).json({ error: "등록되지 않은 유저입니다" });
+      return res.status(404).json({ error: "등록되지 않은 유저" });
     }
 
     let imgFilePath = "";
+
     if (req.file) {
       const outputFilePath = `images/resized_${Date.now()}${path.extname(
         req.file.originalname
       )}`;
       await sharp(req.file.path)
-        .resize({ width: 300, height: 300, fit: "contain" }) // 비율 유지, 크기 조정
+        .resize({ width: 300, height: 300, fit: "contain" })
         .toFile(outputFilePath);
       imgFilePath = `/${outputFilePath}`;
     }
@@ -97,10 +100,9 @@ const sendImg = async (req, res) => {
 
     res.status(201).json(newMessage);
   } catch (error) {
-    console.error(error); // 에러 로그 추가
-    res.status(500).json({ error: "서버 통신 에러 발생" });
+    res.status(500).json({ error: "서버 문제 발생" });
   }
-};
+}
 
 module.exports = {
   laodMessages,
