@@ -33,7 +33,7 @@ $(document).ready(function () {
           friendsListContainer.append(friendHTML);
         });
       },
-      error: function (request, status, error) {
+      error: function (status, error) {
         console.error("Error loading friends:", status, error);
       },
     });
@@ -60,7 +60,7 @@ $(document).ready(function () {
         alert("그룹 채팅방이 생성되었습니다!");
         closeModal(makeGroupChatModal);
       },
-      error: function (request, status, error) {
+      error: function (status, error) {
         alert("그룹 채팅방 생성 실패");
       },
     });

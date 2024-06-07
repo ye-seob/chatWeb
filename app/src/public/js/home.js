@@ -25,7 +25,7 @@ function loadFriends() {
       });
       friendsList.append(friendsHTML);
     },
-    error: function (request, status, error) {
+    error: function (status, error) {
       console.error("Error loading friends:", status, error);
     },
   });
@@ -63,7 +63,7 @@ function deleteFriend() {
       closeDeleteModal();
       loadFriends();
     },
-    error: function (xhr, status, error) {
+    error: function (status, error) {
       alert("친구 삭제에 실패했습니다: " + error);
     },
   });
@@ -76,7 +76,7 @@ function MovePage(page) {
     success: function (data) {
       $(".switch").html(data);
     },
-    error: function (xhr, status, error) {
+    error: function (status, error) {
       console.error("페이지를 불러오는 중 오류가 발생했습니다:", status, error);
     },
   });
@@ -90,7 +90,7 @@ function createChatRoom(friendId, friendName) {
     success: function (response) {
       MovePage("chat");
     },
-    error: function (xhr, status, error) {
+    error: function (status, error) {
       alert("채팅방 생성에 실패했습니다: " + error);
     },
   });
