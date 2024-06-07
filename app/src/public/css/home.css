@@ -1,5 +1,19 @@
+:root {
+  --main-bg-color: white;
+  --main-text-color: #333;
+  --main-border-color: #888888;
+  --main-hover-color: #c7c7c7;
+}
+body.dark-mode {
+  --main-bg-color: #333;
+  --main-text-color: white;
+  --main-border-color: #555;
+  --main-hover-color: #444;
+}
+
 body {
-  color: #495057;
+  background-color: var(--main-bg-color);
+  color: var(--main-text-color);
   display: flex;
   padding: 0;
   margin: 0;
@@ -11,7 +25,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  border-right: 1px solid #888888;
+  border-right: 1px solid var(--main-border-color);
 }
 
 .top-icons {
@@ -45,10 +59,10 @@ body {
 .profile-img:hover,
 .chat-img:hover,
 .setting-img:hover {
-  background-color: #c7c7c7;
+  background-color: var(--main-hover-color);
   cursor: pointer;
   border-radius: 10px;
-  box-shadow: 0 0 0 10px #c7c7c7;
+  box-shadow: 0 0 0 10px var(--main-hover-color);
 }
 .settings button {
   background-color: transparent;
@@ -73,8 +87,7 @@ body {
   height: 40px;
 
   font-size: 16px;
-  border: 1px solid #888888;
-
+  border: 1px solid var(--main-border-color);
   border-right: none;
   border-left: none;
   text-align: left;
@@ -95,18 +108,18 @@ body {
 
 .friend {
   height: 70px;
-  border-bottom: 1px solid #888888;
+  border-bottom: 1px solid var(--main-border-color);
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
 .friend:hover {
-  background-color: #f0f0f0;
+  background-color: var(--main-hover-color);
 }
 .friend:hover .delete-btn {
   border-radius: 10px;
-  background-color: #d9d8d8;
+  background-color: var(--main-hover-color);
 }
 .friend-profile {
   display: flex;
@@ -153,5 +166,5 @@ body {
 .container {
   height: 100vh;
   width: 25vw;
-  border-right: 1px solid #888888;
+  border-right: 1px solid var(--main-border-color);
 }

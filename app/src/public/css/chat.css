@@ -1,8 +1,22 @@
+:root {
+  --main-bg-color: white;
+  --main-text-color: #333;
+  --main-border-color: #888888;
+  --main-hover-color: #c7c7c7;
+  --main-sku-color: #71bf44;
+}
+body.dark-mode {
+  --main-bg-color: #333;
+  --main-text-color: white;
+  --main-border-color: #777777;
+  --main-hover-color: #c7c7c7;
+}
+
 #chat-count {
   height: 40px;
 
   font-size: 16px;
-  border: 1px solid #888888;
+  border: 1px solid var(--main-border-color);
 
   border-right: none;
   border-left: none;
@@ -35,7 +49,7 @@
   width: 40%;
   flex-direction: column;
   align-items: center;
-  background-color: #ffffff;
+  background-color: var(--main-bg-color);
   border-radius: 15px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 20px;
@@ -46,7 +60,7 @@
   width: 100%;
   border-radius: 15px;
   overflow-y: auto;
-  background-color: #f9f9f9;
+  background-color: var(--main-bg-color);
   padding: 15px;
   display: flex;
   flex-direction: column;
@@ -55,8 +69,8 @@
 }
 .send-img-btn {
   font-size: 35px;
-  background-color: white;
-  color: #333;
+  background-color: var(--main-bg-color);
+  color: var(--main-text-color);
   border: none;
   margin-right: 10px;
 }
@@ -80,14 +94,14 @@
 }
 
 .message.sent {
-  background-color: #71bf44;
-  color: #ffffff;
+  background-color: var(--main-sku-color);
+  color: var(--main-bg-color);
   align-self: flex-end;
   text-align: right;
 }
 
 .message.received {
-  background-color: #f0f0f0;
+  background-color: var(--main-bg-color);
   color: #000000;
   align-self: flex-start;
   text-align: left;
@@ -108,7 +122,7 @@
 .send {
   height: 40px;
   flex: 1;
-  border: 1px solid #d1d1d1;
+  border: 1px solid var(--main-border-color);
   border-radius: 20px;
   font-size: 16px;
   padding: 0 15px;
@@ -137,7 +151,7 @@
 
 .room {
   height: 70px;
-  border-bottom: 1px solid #888888;
+  border-bottom: 1px solid var(--main-border-color);
   display: flex;
   align-items: center;
   justify-content: space-between;

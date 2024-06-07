@@ -1,3 +1,10 @@
+:root {
+  --main-bg-color: white;
+  --main-text-color: #333;
+  --main-border-color: #888888;
+  --main-hover-color: #c7c7c7;
+  --main-sku-color: #71bf44;
+}
 .deleteModal {
   display: none;
   position: fixed;
@@ -15,7 +22,7 @@ h2 {
 }
 
 .deleteModal-content {
-  background-color: #ffffff;
+  background-color: var(--main-bg-color);
   margin: 150px auto;
   padding: 20px;
   border-radius: 10px;
@@ -27,14 +34,14 @@ h2 {
 }
 
 .delete-btn {
-  background-color: white;
+  background-color: var(--main-bg-color);
   border: none;
   font-size: 25px;
   margin-right: 10px;
 }
 
 .submit-btn {
-  background-color: #71bf44;
+  background-color: var(--main-sku-color);
   color: #fff;
   border: none;
   border-radius: 5px;
@@ -48,7 +55,7 @@ h2 {
 }
 
 .modal-close {
-  color: #aaa;
+  color: var(--main-text-color);
   float: right;
   font-size: 28px;
   font-weight: bold;
@@ -58,7 +65,7 @@ h2 {
 .delete-btn:focus,
 .modal-close:hover,
 .modal-close:focus {
-  color: black;
+  color: var(--main-text-color);
   text-decoration: none;
   cursor: pointer;
 }
