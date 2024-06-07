@@ -36,7 +36,7 @@ async function addFriend(req, res) {
 
     res.send({ message: "친구가 추가되었습니다." });
   } catch (error) {
-    res.status(500).send("서버 오류");
+    res.status(500).send("서버 문제 발생");
   }
 }
 

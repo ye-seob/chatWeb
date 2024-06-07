@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const connectToDatabase = require("./config/db");
+const connectDB = require("./config/db");
 const home = require("./src/routes/index");
 const userRoutes = require("./src/routes/user");
 const chatRoutes = require("./src/routes/chat");
@@ -9,7 +9,7 @@ const createSessionStore = require("./config/session");
 const path = require("path");
 
 //데이터 베이스 연결 설정 및 세션 미들웨어 등록
-connectToDatabase();
+connectDB();
 const mongoUrl = "mongodb://localhost:27017/chat";
 const sessionMiddleware = createSessionStore(mongoUrl);
 

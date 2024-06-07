@@ -53,6 +53,7 @@ function addFriend() {
 }
 function deleteFriend() {
   var friendId = $("#friendIdInput").val();
+  console.log("실행");
   $.ajax({
     url: "/deleteFriend",
     type: "POST",
