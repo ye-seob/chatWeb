@@ -35,7 +35,7 @@ $(document).ready(function () {
 
 let isSending = false;
 
-function sendMessage() {
+async function sendMessage() {
   if (isSending) return;
 
   var messageInput = document.getElementById("message-input");
@@ -44,34 +44,39 @@ function sendMessage() {
 
   if (message !== "") {
     isSending = true;
-    sendAjax("/sendMessage", "POST", { roomId: roomId, message: message })
-      .then((response) => {
-        addMessage(response);
-        messageInput.value = "";
-      })
-      .catch((error) => console.error("Error sending message:", error))
-      .finally(() => (isSending = false));
+    try {
+      const response = await sendAjax("/sendMessage", "POST", {
+        roomId: roomId,
+        message: message,
+      });
+      addMessage(response);
+      messageInput.value = "";
+    } catch (error) {
+      console.error("메세지 보내기 실패:", error);
+    } finally {
+      isSending = false;
+    }
   }
 }
-
-function loadMessages() {
+async function loadMessages() {
   var roomId = localStorage.getItem("currentRoomId");
   if (roomId) {
-    sendAjax(`/load/${roomId}/messages`, "GET")
-      .then((messages) => {
-        const chatView = $("#chat-view");
-        const fixView =
-          chatView.scrollTop() + chatView.innerHeight() >=
-          chatView[0].scrollHeight;
+    try {
+      const messages = await sendAjax(`/load/${roomId}/messages`, "GET");
+      const chatView = $("#chat-view");
+      const fixView =
+        chatView.scrollTop() + chatView.innerHeight() >=
+        chatView[0].scrollHeight;
 
-        chatView.empty();
-        messages.forEach((message) => addMessage(message));
+      chatView.empty();
+      messages.forEach((message) => addMessage(message));
 
-        if (fixView) {
-          chatView.scrollTop(chatView[0].scrollHeight);
-        }
-      })
-      .catch((error) => console.error("메세지 로드 오류:", error));
+      if (fixView) {
+        chatView.scrollTop(chatView[0].scrollHeight);
+      }
+    } catch (error) {
+      console.error("메세지 로드 오류:", error);
+    }
   }
 }
 
@@ -117,7 +122,7 @@ async function getCurrentUserId() {
     const response = await sendAjax("/getUserId", "GET");
     return response.userId;
   } catch (error) {
-    console.error("통신에러 ", error.status, error);
+    console.error("유저 아이디 가져오기 오류 ", error.status, error);
   }
 }
 

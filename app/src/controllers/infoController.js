@@ -1,27 +1,27 @@
 const ChatRoom = require("../models/chatRoomModel");
 const collection = require("../models/userModels");
 
-function getUserInfo(req, res) {
+async function getUserInfo(req, res) {
   const userId = req.session.student_id;
 
   if (!userId) {
     return res.status(401).json({ error: "세션이 만료 됐습니다" });
   }
 
-  collection
-    .findOne({ student_id: userId })
-    .then((user) => {
-      if (!user) {
-        return res.status(404).json({ error: "등록되지 않은 유저" });
-      }
-      res.json({
-        username: user.name,
-        friendList: user.friendList,
-      });
-    })
-    .catch((err) => {
-      return res.status(500).json({ error: "서버 문제 발생" });
+  try {
+    const user = await collection.findOne({ student_id: userId });
+
+    if (!user) {
+      return res.status(404).json({ error: "등록되지 않은 유저" });
+    }
+
+    res.json({
+      username: user.name,
+      friendList: user.friendList,
     });
+  } catch (err) {
+    res.status(500).json({ error: "서버 문제 발생" });
+  }
 }
 
 async function getRoomName(req, res) {

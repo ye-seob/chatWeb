@@ -24,12 +24,12 @@ async function signup(req, res) {
       return res.send("이미 가입된 학번입니다.");
     }
 
-    const hashedPassword = await bcrypt.hash(password, 5);
+    const hashingPassword = await bcrypt.hash(password, 5);
 
     await collection.create({
       student_id,
       name: username,
-      password: hashedPassword,
+      password: hashingPassword,
       friends: [],
     });
     res.json({ redirect: "/" });

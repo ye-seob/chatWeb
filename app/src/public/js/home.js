@@ -76,7 +76,7 @@ function MovePage(page) {
       $(".switch").html(data);
     },
     error: function (status, error) {
-      console.error("페이지를 불러오는 중 오류가 발생했습니다:", status, error);
+      console.error("페이지를 불러오기 오류:", status, error);
     },
   });
 }

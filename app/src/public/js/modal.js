@@ -20,7 +20,9 @@ $(document).ready(function () {
       dataType: "json",
       success: function (response) {
         var friendsListContainer = $("#friendsListContainer");
+
         friendsListContainer.empty();
+
         response.friendList.forEach(function (friend) {
           var friendHTML = `
             <div class="friend" data-friend-id="${friend.friendId}">
@@ -30,11 +32,12 @@ $(document).ready(function () {
                 <input type="checkbox" class="friend-checkbox" data-friend-id="${friend.friendId}">
               </div>
             </div>`;
+
           friendsListContainer.append(friendHTML);
         });
       },
       error: function (status, error) {
-        console.error("Error loading friends:", status, error);
+        console.error("친구 목록 가져오기 오류:", status, error);
       },
     });
   }

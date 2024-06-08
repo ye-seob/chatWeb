@@ -20,6 +20,7 @@ async function sendMessage(req, res) {
     }
 
     const user = await User.findOne({ student_id: userId });
+
     if (!user) {
       return res.status(404).json({ error: "등록되지 않은 유저" });
     }
@@ -32,6 +33,7 @@ async function sendMessage(req, res) {
 
     await newMessage.save();
     chatRoom.messages.push(newMessage);
+
     await chatRoom.save();
 
     res.status(201).json(newMessage);
@@ -76,13 +78,13 @@ async function sendImg(req, res) {
     let imgFilePath = "";
 
     if (req.file) {
-      const outputFilePath = `images/resized_${Date.now()}${path.extname(
+      const imgPath = `images/resized_${Date.now()}${path.extname(
         req.file.originalname
       )}`;
       await sharp(req.file.path)
         .resize({ width: 300, height: 300, fit: "contain" })
-        .toFile(outputFilePath);
-      imgFilePath = `/${outputFilePath}`;
+        .toFile(imgPath);
+      imgFilePath = `/${imgPath}`;
     }
 
     const newMessage = new Message({

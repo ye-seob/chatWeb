@@ -3,7 +3,6 @@
 }
 
 input[type="checkbox"] {
-  -webkit-appearance: none;
   appearance: none;
   position: relative;
   border: 2px solid #808080;

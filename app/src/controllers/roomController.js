@@ -90,34 +90,31 @@ async function deleteChatRoom(req, res) {
   }
 }
 
-function loadChatRoom(req, res) {
+async function loadChatRoom(req, res) {
   const student_id = req.session.student_id;
 
   if (!student_id) {
     return res.status(401).json({ error: "세션이 만료 됐습니다" });
   }
 
-  User.findOne({ student_id: student_id })
-    .then((user) => {
-      if (!user) {
-        return res.status(404).json({ error: "등록되지 않은 유저입니다" });
-      }
+  try {
+    const user = await User.findOne({ student_id: student_id });
 
-      ChatRoom.find({ participants: user._id })
-        .then((chatRooms) => {
-          res.json({
-            username: user.name,
-            chatRooms: chatRooms,
-          });
-        })
-        .catch((err) => {
-          res.status(500).json({ error: "서버 문제 발생" });
-        });
-    })
-    .catch((err) => {
-      res.status(500).json({ error: "서버  문제 발생" });
+    if (!user) {
+      return res.status(404).json({ error: "등록되지 않은 유저입니다" });
+    }
+
+    const chatRooms = await ChatRoom.find({ participants: user._id });
+
+    res.json({
+      username: user.name,
+      chatRooms: chatRooms,
     });
+  } catch (err) {
+    res.status(500).json({ error: "서버 문제 발생" });
+  }
 }
+
 module.exports = {
   createChatRoom,
   deleteChatRoom,

@@ -8,7 +8,6 @@ const infoRoutes = require("./src/routes/info");
 const createSessionStore = require("./config/session");
 const path = require("path");
 
-//데이터 베이스 연결 설정 및 세션 미들웨어 등록
 connectDB();
 const mongoUrl = "mongodb://localhost:27017/chat";
 const sessionMiddleware = createSessionStore(mongoUrl);
