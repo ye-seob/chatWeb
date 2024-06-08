@@ -47,7 +47,7 @@ async function selectRoom(roomId) {
     var nameHTML = `<p>${response.roomName}</p>`;
 
     roomName.append(nameHTML);
-    await loadMessages(roomId); // loadMessages 함수도 async/await로 변경해야 합니다
+    await loadMessages(roomId);
   } catch (error) {
     console.error("채팅방 로드 오류", error);
   }
@@ -68,7 +68,7 @@ async function deleteChatRoom() {
       await sendAjax(`/deleteChatRoom/${roomId}`, "DELETE");
       alert("채팅방이 삭제되었습니다.");
       closeDeleteChatRoomModal();
-      await loadChatRoom(); // loadChatRoom 함수도 async/await로 변경해야 합니다
+      await loadChatRoom();
     } catch (error) {
       console.error("채팅방 삭제 실패:", error);
       alert("채팅방 삭제에 실패했습니다.");
